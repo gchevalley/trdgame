@@ -36,7 +36,7 @@ export default {
       portfolio: {
         amountCash: 500,
         positions: {
-          shares : 25,
+          shares : 425,
           derivatives: [{'call 18': 25},
           {'put 15': -10}
         ]}
