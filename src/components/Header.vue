@@ -11,18 +11,18 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="#">Trading</a>
+          <p class="navbar-text">{{clock}}</p>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <p class="navbar-text">{{clock}}</p>
             <li><a href="#">Portfolio</a></li>
             <li><a href="#">Market</a></li>
             <li><a href="#">Orders</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <p class="navbar-text">Signed in as {{player.name}}</p>
+            <p class="navbar-text">Signed in as {{$store.state.player.name}}</p>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -36,34 +36,19 @@ export default {
     return {
       clock: this.$moment().format("HH:mm:ss"),
 
-      game: {
-        currentRound: 9,
-      },
-
-      portfolio: {
-        amountCash: 500,
-        shares: 25,
-      },
-
-      player: {
-        name: "tom@unige.ch",
-        Ranking: 5
-      },
-
     }
   },
 
   methods: {
     updateClock() {
-      var self = this
+      var self = this;
       this.clock = this.$moment().format("HH:mm:ss");
-
-      setInterval(self.updateClock, 1000)
-    },
+      setTimeout(self.updateClock, 1000);
+    }
   },
 
   mounted: function() {
-    this.updateClock()
+    this.updateClock();
   }
 
 }

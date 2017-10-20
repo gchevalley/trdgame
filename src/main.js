@@ -3,6 +3,8 @@ import App from './App.vue'
 
 import Vuex from 'vuex'
 
+import {store} from './store/store.js';
+
 import moment from 'moment';
 Vue.prototype.$moment = moment;
 
@@ -11,6 +13,6 @@ Vue.prototype.$chartist = chartist;
 
 new Vue({
   el: '#app',
-  moment,
+  store,
   render: h => h(App)
 })

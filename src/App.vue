@@ -22,6 +22,7 @@ import Portfolio from './components/portfolio/Portfolio.vue';
 import Stockchart from './components/markets/Stockchart.vue';
 
 import Omsstocks from './components/oms/Omsstocks.vue';
+import Omsoptions from './components/oms/Omsoptions.vue';
 import Orderbook from './components/oms/Orderbook.vue';
 
 export default {
@@ -37,6 +38,7 @@ export default {
     appPortfolio: Portfolio,
     appStockchart: Stockchart,
     appOmsstocks: Omsstocks,
+    appOmsoptions: Omsoptions,
     appOrderbook: Orderbook
   }
 }

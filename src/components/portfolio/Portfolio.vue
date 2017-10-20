@@ -5,19 +5,19 @@
       <tbody>
         <tr>
           <th>Current Round</th>
-          <td><span class="badge">{{game.currentRound}}</span></td>
+          <td><span class="badge">{{$store.state.game.currentRound}}</span></td>
         </tr>
         <tr>
           <th>Shares</th>
-          <td>{{portfolio.positions.shares}} units</td>
+          <td>{{$store.state.portfolio.positions.shares}} units</td>
         </tr>
         <tr>
           <th>Ranking</th>
-          <td>{{player.ranking}} <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" style="color:red"></span></td>
+          <td>{{$store.state.player.ranking}} <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" style="color:red"></span></td>
         </tr>
         <tr>
           <th>Cash</th>
-          <td>$ {{portfolio.amountCash}}</td>
+          <td>$ {{$store.state.portfolio.amountCash}}</td>
         </tr>
       </tbody>
     </table>
@@ -29,23 +29,7 @@
 export default {
   data () {
     return {
-      game: {
-        currentRound: 9,
-      },
 
-      portfolio: {
-        amountCash: 500,
-        positions: {
-          shares : 425,
-          derivatives: [{'call 18': 25},
-          {'put 15': -10}
-        ]}
-      },
-
-      player: {
-        name: "tom@unige.ch",
-        ranking: 5
-      }
     }
   }
 }
