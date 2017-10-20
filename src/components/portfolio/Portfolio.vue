@@ -1,6 +1,7 @@
 <template>
   <div class="col-md-4">
     <h3>Recap</h3>
+    <button type="button" class="btn btn-danger" @click="updateMarket">Update market</button>
     <table class="table">
       <tbody>
         <tr>
@@ -19,6 +20,11 @@
           <th>Cash</th>
           <td>$ {{$store.state.portfolio.amountCash}}</td>
         </tr>
+
+        <tr>
+          <th>Underyling Last Price</th>
+          <td>{{$store.getters.last_price}}</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -30,6 +36,12 @@ export default {
   data () {
     return {
 
+    }
+  },
+
+  methods: {
+    updateMarket() {
+      this.$store.dispatch('updateMarket');
     }
   }
 }

@@ -7,7 +7,7 @@
     </div>
 
     <div class="row">
-      <app-omsstocks></app-omsstocks>
+      <app-oms></app-oms>
       <app-orderbook></app-orderbook>
     </div>
 
@@ -21,8 +21,7 @@ import Header from './components/Header.vue';
 import Portfolio from './components/portfolio/Portfolio.vue';
 import Stockchart from './components/markets/Stockchart.vue';
 
-import Omsstocks from './components/oms/Omsstocks.vue';
-import Omsoptions from './components/oms/Omsoptions.vue';
+import Oms from './components/oms/Oms.vue';
 import Orderbook from './components/oms/Orderbook.vue';
 
 export default {
@@ -37,8 +36,7 @@ export default {
     appHeader: Header,
     appPortfolio: Portfolio,
     appStockchart: Stockchart,
-    appOmsstocks: Omsstocks,
-    appOmsoptions: Omsoptions,
+    appOms: Oms,
     appOrderbook: Orderbook
   }
 }

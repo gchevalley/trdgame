@@ -14,8 +14,8 @@
         <tbody>
           <tr v-for="order in $store.state.pendingOrders" :key="order.id">
             <td>{{order.timestamp}}</td>
-            <td v-if="order.side == 'buy'"><span class="label label-info">{{order.qty}}</span></td>
-            <td v-else><span class="label label-danger">{{order.qty}}</span></td>
+            <td v-if="order.side == 'buy'"><span class="label label-info">{{order.qty}} @ {{order.price}}</span></td>
+            <td v-else><span class="label label-danger">{{order.qty}} @ {{order.price}}</span></td>
             <td>{{order.asset}}</td>
             <td><button type="button" class="btn btn-danger btn-xs" @click="cancelPendingOrder(order)">Cancel</button></td>
           </tr>
@@ -52,7 +52,7 @@
 <script>
 export default {
   data () {
-    
+
     return {
 
     }
