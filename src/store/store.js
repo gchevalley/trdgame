@@ -25,7 +25,7 @@ export const store = new Vuex.Store({
         ]}
     },
 
-    pendingOrders: [{id: 'o1', timestamp: '21:13', asset: 'shares', side: 'sell', qty: -45, price: 23}],
+    pendingOrders: [{id: 'o1', timestamp: '21:13:07', asset: 'shares', side: 'sell', qty: -45, price: 23}],
     executedOrders: [{round: 5, asset: 'shares', side: 'buy', qty: 345, price: 12.45},
       {round: 3, asset: 'put 12 - maturity 13', side: 'sell', qty: -80, price: 13.65},
       {round: 2, asset: 'shares', side: 'buy', qty: 25, price: 18.20}],
@@ -42,8 +42,12 @@ export const store = new Vuex.Store({
   },
 
   mutations: {
-    insertNewPriceInMarket: (state) => {
-      var newPrice = Math.floor(Math.random() * 23) + 1;
+    insertNewPriceInMarket: (state, payLoad = -1) => {
+      if (payLoad == -1) {
+        var newPrice = Math.floor(Math.random() * 23) + 1;
+      } else {
+        var newPrice = payLoad;
+      }
 
       if (state.stockprice.length >= 10) {
         state.stockprice.shift();
@@ -70,7 +74,7 @@ export const store = new Vuex.Store({
       var previousPrice = getters.last_price;
       commit('insertNewPriceInMarket')
       var newPrice = getters.last_price;
-      
+
       //console.log(previousPrice + ' ' + newPrice);
 
     },
@@ -86,6 +90,12 @@ export const store = new Vuex.Store({
 
     CancelOrder: ({commit}, payLoad) => {
       commit( 'removeOrder', payLoad );
+    },
+
+    socket_myResponse: (context, message) => {
+      //console.log("capture update price directly from store");
+      //console.log(message);
+      context.commit('insertNewPriceInMarket', message.number);
     },
   }
 });

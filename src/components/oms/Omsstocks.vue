@@ -47,14 +47,18 @@ export default {
 
   methods: {
     newBuyOrderShares() {
-      if (this.orderQty != '') {
-        this.$store.dispatch('newOrder', {id: 'o2', timestamp: '22:22', asset: 'shares', side: 'buy', qty: this.sharesOrderQty, price: this.sharesLimitPrice} )
+      if (this.sharesOrderQty != '') {
+        this.$store.dispatch('newOrder', {id: 'o2', timestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'buy', qty: this.sharesOrderQty, price: this.sharesLimitPrice} )
+        this.sharesOrderQty = '';
+        this.sharesLimitPrice = '';
       }
     },
 
     newSellOrderShares() {
-      if (this.orderQty != '') {
-        this.$store.dispatch('newOrder', {id: 'o3', timestamp: '22:33', asset: 'shares', side: 'sell', qty: -Math.abs(this.sharesOrderQty), price: this.sharesLimitPrice} )
+      if (this.sharesOrderQty != '') {
+        this.$store.dispatch('newOrder', {id: 'o3', timestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'sell', qty: -Math.abs(this.sharesOrderQty), price: this.sharesLimitPrice} )
+        this.sharesOrderQty = '';
+        this.sharesLimitPrice = '';
       }
     }
 

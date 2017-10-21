@@ -38,7 +38,19 @@ export default {
     appStockchart: Stockchart,
     appOms: Oms,
     appOrderbook: Orderbook
-  }
+  },
+
+  sockets:{
+    connect: function(){
+      console.log('socket connected')
+    },
+    my_connection: function(val){
+      console.log('this method was fired by the socket server. eg: io.emit("my_connection", data)')
+    }
+  },
+
+
+
 }
 </script>
 

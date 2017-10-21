@@ -74,6 +74,15 @@ export default {
     'vue-chartist': VueChartist
   },
 
+/*
+  sockets:{
+    my_response: function(data){
+      console.log('this method was fired by the socket server. eg: io.emit("my_response", data)');
+      console.log(data.number);
+    }
+  },
+  */
+
 }
 
 </script>

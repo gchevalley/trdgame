@@ -5,13 +5,12 @@ import Vuex from 'vuex'
 
 import {store} from './store/store.js';
 
+import VueSocketio from 'vue-socket.io';
+import socketio from 'socket.io-client'
+Vue.use(VueSocketio, socketio('http://localhost:5000/test'), store);
+
 import moment from 'moment';
 Vue.prototype.$moment = moment;
-
-/*
-import chartist from 'chartist';
-Vue.prototype.$chartist = chartist;
-*/
 
 new Vue({
   el: '#app',

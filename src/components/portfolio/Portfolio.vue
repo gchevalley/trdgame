@@ -1,7 +1,6 @@
 <template>
   <div class="col-md-4">
     <h3>Recap</h3>
-    <button type="button" class="btn btn-danger" @click="updateMarket">Update market</button>
     <table class="table">
       <tbody>
         <tr>
@@ -38,12 +37,6 @@ export default {
 
     }
   },
-
-  methods: {
-    updateMarket() {
-      this.$store.dispatch('updateMarket');
-    }
-  }
 }
 </script>
 
