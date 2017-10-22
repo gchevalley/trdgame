@@ -3,11 +3,18 @@ import App from './App.vue'
 
 import Vuex from 'vuex'
 
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
+Vue.http.headers.common['Access-Control-Allow-Origin'] = '*';
+Vue.http.headers.common['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, Authorization, Access-Control-Allow-Origin';
+
 import {store} from './store/store.js';
 
 import VueSocketio from 'vue-socket.io';
 import socketio from 'socket.io-client'
-Vue.use(VueSocketio, socketio('http://localhost:5000/test'), store);
+var namespace = '/test';
+//Vue.use(VueSocketio, socketio(location.protocol + '//' + document.domain + ':' + location.port + namespace), store);
+Vue.use(VueSocketio, socketio(location.protocol + '//' + document.domain + ':' + '5000' + namespace), store);
 
 import moment from 'moment';
 Vue.prototype.$moment = moment;
@@ -16,6 +23,8 @@ import {flexNumber, flexCurrency} from './filters/filters.js';
 Vue.filter('flexNumber', flexNumber);
 Vue.filter('flexCurrency', flexCurrency);
 
+import VeeValidate from 'vee-validate';
+Vue.use(VeeValidate);
 
 
 new Vue({

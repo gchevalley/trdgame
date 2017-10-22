@@ -17,12 +17,12 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="#">Portfolio</a></li>
-            <li><a href="#">Market</a></li>
-            <li><a href="#">Orders</a></li>
+            <!--<li><a href="#">Portfolio</a></li>-->
+            <!--<li><a href="#">Market</a></li>-->
+            <!--<li><a href="#">Orders</a></li>-->
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <p class="navbar-text">Signed in as {{$store.state.player.name}}</p>
+            <p v-if="$store.state.player.name" class="navbar-text">Signed in as {{$store.state.player.name}}</p>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->

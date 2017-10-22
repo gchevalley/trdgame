@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div v-show="$store.textTrader" class="form-group">
         <label class="control-label col-sm-4" for="texttrader">Text trader</label>
         <div class="col-sm-8">
           <input type="text" class="form-control" id="texttrader" placeholder="Comment">
@@ -25,8 +25,8 @@
 
       <div class="form-group">
         <div class="col-sm-offset-4 col-sm-10">
-          <button type="button" class="btn btn-info" @click="newBuyOrderShares">Buy</button>
-          <button type="button" class="btn btn-danger" @click="newSellOrderShares">Sell</button>
+          <button type="button" class="btn btn-info btn-lg" @click="newBuyOrderShares">Buy</button>
+          <button type="button" class="btn btn-danger btn-lg" @click="newSellOrderShares">Sell</button>
         </div>
       </div>
     </form>

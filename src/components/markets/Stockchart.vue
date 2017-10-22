@@ -1,10 +1,12 @@
 <template>
   <div class="col-md-8">
-    <vue-chartist id="stock-chart"
+    <vue-chartist id="stockchart"
     class="ct-major-tenth"
     :data="chartData"
     :options="chartOptions"
-    type="Line">
+    type="Line"
+    ref="stockchart"
+    :listener="chartEvent">
   </vue-chartist>
   </div>
 </template>
@@ -45,6 +47,13 @@ export default {
           }
         }
       },
+
+      chartEvent: {
+        draw: function(event) {
+        },
+        created: function(event) {
+        }
+      }
     }
   },
 
@@ -53,7 +62,6 @@ export default {
   },
 
   methods: {
-
   },
 
   computed: {
@@ -73,15 +81,6 @@ export default {
   components: {
     'vue-chartist': VueChartist
   },
-
-/*
-  sockets:{
-    my_response: function(data){
-      console.log('this method was fired by the socket server. eg: io.emit("my_response", data)');
-      console.log(data.number);
-    }
-  },
-  */
 
 }
 

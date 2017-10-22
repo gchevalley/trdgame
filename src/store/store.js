@@ -1,5 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
+Vue.http.headers.common['Access-Control-Allow-Origin'] = '*';
+Vue.http.headers.common['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, Authorization, Access-Control-Allow-Origin';
 
 import moment from 'moment';
 
@@ -7,25 +11,18 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
+
+    connected: false,
+
     player: {
-      name: "tom@unige.ch",
-      ranking: 5,
-      omsOption: false,
     },
 
     game: {
-      currentRound: 9,
     },
 
     stockprice: [],
 
     portfolio: {
-      amountCash: 100000,
-      positions: {
-        shares : 0,
-        derivatives: [{'call 18': 25},
-        {'put 15': -10}
-      ]}
     },
 
     pendingOrders: [],
@@ -47,6 +44,26 @@ export const store = new Vuex.Store({
   },
 
   mutations: {
+    login_player: (state, payLoad) => {
+      state.player = payLoad;
+    },
+
+    login_game: (state, payLoad) => {
+      state.game = payLoad;
+    },
+
+    login_portfolio: (state, payLoad) => {
+      state.portfolio = payLoad;
+    },
+
+    login_executedOrders: (state, payLoad) => {
+      state.executedOrders = payLoad;
+    },
+
+    login_connect: (state) => {
+      state.connected = true;
+    },
+
     insertNewPriceInMarket: (state, payLoad = -1) => {
       if (payLoad == -1) {
         var newPrice = Math.floor(Math.random() * 23) + 1;
@@ -85,6 +102,16 @@ export const store = new Vuex.Store({
   },
 
   actions: {
+    login: ({commit, getters}, payLoad) => {
+      //console.log(payLoad);
+      commit('login_player', payLoad.player);
+      commit('login_game', payLoad.game);
+      commit('login_portfolio', payLoad.portfolio);
+      commit('login_executedOrders', payLoad.executedOrders);
+
+      commit('login_connect');
+    },
+
     updateMarket: ({commit, getters}) => {
       var previousPrice = getters.last_price;
       commit('insertNewPriceInMarket')
@@ -129,7 +156,13 @@ export const store = new Vuex.Store({
           context.commit( 'removeOrder', order );
         }
       });
-
+      /*
+      Vue.http.post(location.protocol + '//' + document.domain + ':' + '5000/neworder', {id: 4}).then(response => {
+        console.log(response);
+        }, error => {
+          console.log(response);
+        });
+      */
       context.commit('insertNewPriceInMarket', newPrice);
     },
   }

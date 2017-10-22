@@ -1,31 +1,14 @@
 <template>
   <div>
-    <app-header></app-header>
-    <div class="container">
-
-      <div class="row">
-        <app-portfolio></app-portfolio>
-        <app-stockchart></app-stockchart>
-      </div>
-
-      <div class="row">
-        <app-oms></app-oms>
-        <app-orderbook></app-orderbook>
-      </div>
-
-
-    </div>
+    <app-trading v-if="$store.state.connected"></app-trading>
+    <app-login v-else></app-login>
   </div>
 </template>
 
 <script>
-import Header from './components/Header.vue';
 
-import Portfolio from './components/portfolio/Portfolio.vue';
-import Stockchart from './components/markets/Stockchart.vue';
-
-import Oms from './components/oms/Oms.vue';
-import Orderbook from './components/oms/Orderbook.vue';
+import Login from './components/Login.vue';
+import Trading from './components/Trading.vue';
 
 export default {
 
@@ -36,20 +19,9 @@ export default {
   },
 
   components: {
-    appHeader: Header,
-    appPortfolio: Portfolio,
-    appStockchart: Stockchart,
-    appOms: Oms,
-    appOrderbook: Orderbook
+    appLogin: Login,
+    appTrading: Trading,
   },
-
-  sockets:{
-    connect: function(){
-      console.log('socket connected')
-    },
-  },
-
-
 
 }
 </script>
