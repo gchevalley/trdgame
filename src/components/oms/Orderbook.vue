@@ -13,9 +13,9 @@
         </thead>
         <tbody>
           <tr v-for="order in $store.state.pendingOrders" :key="order.id">
-            <td>{{order.timestamp}}</td>
-            <td v-if="order.side == 'buy'"><span class="label label-info">{{order.qty}} @ {{order.price}}</span></td>
-            <td v-else><span class="label label-danger">{{order.qty}} @ {{order.price}}</span></td>
+            <td>{{order.ordertimestamp}}</td>
+            <td v-if="order.side == 'buy'"><span class="label label-info">{{order.qty | flexNumber(0, ".", "'")}} @ {{order.orderprice}}</span></td>
+            <td v-else><span class="label label-danger">{{order.qty | flexNumber(0, ".", "'")}} @ {{order.orderprice}}</span></td>
             <td>{{order.asset}}</td>
             <td><button type="button" class="btn btn-danger btn-xs" @click="cancelPendingOrder(order)">Cancel</button></td>
           </tr>
@@ -28,7 +28,7 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Round</th>
+            <th>Time</th>
             <th>Quantity</th>
             <th>Asset</th>
             <th>Price</th>
@@ -36,11 +36,11 @@
         </thead>
         <tbody>
           <tr v-for="exec in $store.state.executedOrders">
-            <td><span class="badge">{{exec.round}}</span></td>
-            <td v-if="exec.side == 'buy'"><span class="label label-info">{{exec.qty}}</span></td>
-            <td v-else><span class="label label-danger">{{exec.qty}}</span></td>
+            <td>{{exec.exectimestamp}}</td>
+            <td v-if="exec.side == 'buy'"><span class="label label-info">{{exec.qty | flexNumber(0, ".", "'")}}</span></td>
+            <td v-else><span class="label label-danger">{{exec.qty | flexNumber(0, ".", "'")}}</span></td>
             <td>{{exec.asset}}</td>
-            <td>{{exec.price}}</td>
+            <td>{{exec.execprice | flexNumber(2, ".", "'")}}</td>
           </tr>
         </tbody>
       </table>

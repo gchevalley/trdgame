@@ -1,13 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import moment from 'moment';
+
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
     player: {
       name: "tom@unige.ch",
-      ranking: 5
+      ranking: 5,
+      omsOption: false,
     },
 
     game: {
@@ -17,22 +20,24 @@ export const store = new Vuex.Store({
     stockprice: [],
 
     portfolio: {
-      amountCash: 500,
+      amountCash: 100000,
       positions: {
-        shares : 425,
+        shares : 0,
         derivatives: [{'call 18': 25},
-          {'put 15': -10}
-        ]}
+        {'put 15': -10}
+      ]}
     },
 
-    pendingOrders: [{id: 'o1', timestamp: '21:13:07', asset: 'shares', side: 'sell', qty: -45, price: 23}],
-    executedOrders: [{round: 5, asset: 'shares', side: 'buy', qty: 345, price: 12.45},
-      {round: 3, asset: 'put 12 - maturity 13', side: 'sell', qty: -80, price: 13.65},
-      {round: 2, asset: 'shares', side: 'buy', qty: 25, price: 18.20}],
+    pendingOrders: [],
+    executedOrders: [
+    ],
 
   },
 
   getters: {
+    countOrders: state => {
+      return state.pendingOrders.length;
+    },
     last_price: state => {
       return state.stockprice[state.stockprice.length - 1];
     },
@@ -65,7 +70,17 @@ export const store = new Vuex.Store({
     },
 
     insertNewExec: (state, payLoad) => {
+      state.portfolio.amountCash += -payLoad.qty * payLoad.execprice;
+      state.portfolio.positions.shares += payLoad.qty;
       state.executedOrders = [payLoad].concat( state.executedOrders );
+    },
+
+    adjustCash: (state, payLoad) => {
+      state.portfolio.amountCash += payLoad;
+    },
+
+    adjustShares: (state, payLoad) => {
+      state.portfolio.positions.shares += payLoad;
     }
   },
 
@@ -80,12 +95,14 @@ export const store = new Vuex.Store({
     },
 
     newOrder: ({commit, getters}, payLoad) => {
-      if (payLoad.price != '') {
-        commit( 'insertNewOrder', payLoad );
+      if (payLoad.orderprice != '') {
+        payLoad.ordertype = "LMT"
       } else {
-        payLoad.price = getters.last_price;
-        commit( 'insertNewExec', payLoad );
+        payLoad.ordertype = "MKT"
+        payLoad.orderprice = 'MARKET';
       }
+      payLoad.id = getters.countOrders + 1;
+      commit( 'insertNewOrder', payLoad );
     },
 
     CancelOrder: ({commit}, payLoad) => {
@@ -95,7 +112,25 @@ export const store = new Vuex.Store({
     socket_myResponse: (context, message) => {
       //console.log("capture update price directly from store");
       //console.log(message);
-      context.commit('insertNewPriceInMarket', message.number);
+      var newPrice = message.number;
+
+      // execute market orders
+      context.state.pendingOrders.forEach(function(order) {
+        if (order.ordertype == 'MKT') {
+          order.orderprice = newPrice;
+          order.execprice = newPrice;
+          order.exectimestamp = moment().format("HH:mm:ss");
+          context.commit( 'insertNewExec', order );
+          context.commit( 'removeOrder', order );
+        } else if ( (order.ordertype == 'LMT' && order.side == 'buy' && order.orderprice >= newPrice) || (order.ordertype == 'LMT' && order.side == 'sell' && order.orderprice <= newPrice) ) {
+          order.execprice = newPrice;
+          order.exectimestamp = moment().format("HH:mm:ss");
+          context.commit( 'insertNewExec', order );
+          context.commit( 'removeOrder', order );
+        }
+      });
+
+      context.commit('insertNewPriceInMarket', newPrice);
     },
   }
 });

@@ -9,7 +9,7 @@
         </tr>
         <tr>
           <th>Shares</th>
-          <td>{{$store.state.portfolio.positions.shares}} units</td>
+          <td>{{$store.state.portfolio.positions.shares | flexNumber(0, ".", "'")}} units</td>
         </tr>
         <tr>
           <th>Ranking</th>
@@ -17,7 +17,7 @@
         </tr>
         <tr>
           <th>Cash</th>
-          <td>$ {{$store.state.portfolio.amountCash}}</td>
+          <td>{{$store.state.portfolio.amountCash | flexCurrency('CHF ', 2, ".", "'")}}</td>
         </tr>
 
         <tr>
@@ -37,6 +37,10 @@ export default {
 
     }
   },
+
+  filters: {
+
+  }
 }
 </script>
 

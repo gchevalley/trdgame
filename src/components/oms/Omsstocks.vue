@@ -46,19 +46,23 @@ export default {
   },
 
   methods: {
+
+    cleanOms() {
+      this.sharesOrderQty = '';
+      this.sharesLimitPrice = '';
+    },
+
     newBuyOrderShares() {
-      if (this.sharesOrderQty != '') {
-        this.$store.dispatch('newOrder', {id: 'o2', timestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'buy', qty: this.sharesOrderQty, price: this.sharesLimitPrice} )
-        this.sharesOrderQty = '';
-        this.sharesLimitPrice = '';
+      if (this.sharesOrderQty != '' && (this.sharesLimitPrice == '' || this.sharesLimitPrice > 0 ) ) {
+        this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'buy', qty: Math.abs(this.sharesOrderQty), orderprice: this.sharesLimitPrice } )
+        this.cleanOms();
       }
     },
 
     newSellOrderShares() {
-      if (this.sharesOrderQty != '') {
-        this.$store.dispatch('newOrder', {id: 'o3', timestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'sell', qty: -Math.abs(this.sharesOrderQty), price: this.sharesLimitPrice} )
-        this.sharesOrderQty = '';
-        this.sharesLimitPrice = '';
+      if (this.sharesOrderQty != '' && (this.sharesLimitPrice == '' || this.sharesLimitPrice > 0 ) ) {
+        this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'sell', qty: -Math.abs(this.sharesOrderQty), orderprice: this.sharesLimitPrice } )
+        this.cleanOms();
       }
     }
 

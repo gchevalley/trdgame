@@ -1,17 +1,20 @@
 <template>
-  <div class="container">
+  <div>
     <app-header></app-header>
-    <div class="row">
-      <app-portfolio></app-portfolio>
-      <app-stockchart></app-stockchart>
+    <div class="container">
+
+      <div class="row">
+        <app-portfolio></app-portfolio>
+        <app-stockchart></app-stockchart>
+      </div>
+
+      <div class="row">
+        <app-oms></app-oms>
+        <app-orderbook></app-orderbook>
+      </div>
+
+
     </div>
-
-    <div class="row">
-      <app-oms></app-oms>
-      <app-orderbook></app-orderbook>
-    </div>
-
-
   </div>
 </template>
 
@@ -44,9 +47,6 @@ export default {
     connect: function(){
       console.log('socket connected')
     },
-    my_connection: function(val){
-      console.log('this method was fired by the socket server. eg: io.emit("my_connection", data)')
-    }
   },
 
 

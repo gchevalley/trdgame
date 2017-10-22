@@ -1,10 +1,12 @@
 <template>
-<div class="col-md-4">
+  <div class="col-md-4">
 
-<app-omsstocks></app-omsstocks>
-<app-omsoptions></app-omsoptions>
+    <app-omsstocks></app-omsstocks>
+    <div v-if="$store.state.omsOption">
+      <app-omsoptions></app-omsoptions>
+    </div>
 
-</div>
+  </div>
 
 
 </template>
