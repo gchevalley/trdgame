@@ -25,6 +25,7 @@ export const store = new Vuex.Store({
     portfolio: {
     },
 
+    countOrder: 0,
     pendingOrders: [],
     executedOrders: [
     ],
@@ -32,8 +33,14 @@ export const store = new Vuex.Store({
   },
 
   getters: {
-    countOrders: state => {
+    orderId: state => {
+      return state.countOrder;
+    },
+    countPendingOrders: state => {
       return state.pendingOrders.length;
+    },
+    countExecutedOrders: state => {
+      return state.executedOrders.length;
     },
     last_price: state => {
       return state.stockprice[state.stockprice.length - 1];
@@ -44,6 +51,9 @@ export const store = new Vuex.Store({
   },
 
   mutations: {
+    incOrderId: (state) => {
+      state.countOrder++;
+    },
     login_player: (state, payLoad) => {
       state.player = payLoad;
     },
@@ -128,7 +138,9 @@ export const store = new Vuex.Store({
         payLoad.ordertype = "MKT"
         payLoad.orderprice = 'MARKET';
       }
-      payLoad.id = getters.countOrders + 1;
+      commit('incOrderId');
+      payLoad.id = getters.orderId;
+      console.log(payLoad);
       commit( 'insertNewOrder', payLoad );
     },
 
@@ -137,8 +149,6 @@ export const store = new Vuex.Store({
     },
 
     socket_myResponse: (context, message) => {
-      //console.log("capture update price directly from store");
-      //console.log(message);
       var newPrice = message.number;
 
       // execute market orders
