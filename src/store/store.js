@@ -18,11 +18,15 @@ export const store = new Vuex.Store({
     },
 
     game: {
+      limitShortShares: -20000
     },
 
     stockprice: [],
 
     portfolio: {
+      positions: {
+        shares: 0
+      }
     },
 
     countOrder: 0,
@@ -47,13 +51,37 @@ export const store = new Vuex.Store({
     },
     stockprices: state => {
       return state.stockprice;
-    }
+    },
+    get_cash: state => {
+      return state.portfolio.amountCash;
+    },
+    get_shares: state => {
+      return state.portfolio.positions.shares;
+    },
+    check_short: state => {
+      return state.portfolio.positions.shares >= -Math.abs(state.game.limitShortShares);
+    },
   },
 
   mutations: {
+    initGame: (state) => {
+      state.connected = false;
+      state.player = {};
+      state.game = {limitShortShares: -20000};
+      state.stockprice = [];
+      state.portfolio = {positions: {shares: 0}};
+      state.countOrder = 0;
+      state.pendingOrders = [];
+      state.executedOrders = [];
+    },
+
+    gameOver: (state) => {
+    },
+
     incOrderId: (state) => {
       state.countOrder++;
     },
+    
     login_player: (state, payLoad) => {
       state.player = payLoad;
     },
@@ -173,6 +201,16 @@ export const store = new Vuex.Store({
           console.log(response);
         });
       */
+      if (context.getters.get_cash < 0) {
+        alert("No cash -> game over");
+        context.commit('initGame');
+      }
+
+      if (!context.getters.check_short) {
+        alert("Too short-> game over");
+        context.commit('initGame');
+      }
+
       context.commit('insertNewPriceInMarket', newPrice);
     },
   }

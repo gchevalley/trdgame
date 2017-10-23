@@ -5,7 +5,8 @@
       <div class="form-group">
         <label class="control-label col-sm-4" for="quantity">Quantity</label>
         <div class="col-sm-6">
-          <input type="number" class="form-control" id="quantity" placeholder="Enter quantity" v-model.number="sharesOrderQty">
+          <input type="number" v-validate="'required|max_value:10000'" class="form-control" :class="{'input': true, 'is-danger': errors.has('quantity') }" id="quantity" name="quantity" placeholder="Enter quantity" v-model.number="sharesOrderQty">
+          <span v-show="sharesOrderQty>10000" class="help is-danger">Quantity is capted to 10'000 for liquidity reasons</span>
         </div>
       </div>
 
@@ -16,7 +17,7 @@
         </div>
       </div>
 
-      <div v-show="$store.textTrader" class="form-group">
+      <div v-show="$store.state.player.textTrader" class="form-group">
         <label class="control-label col-sm-4" for="texttrader">Text trader</label>
         <div class="col-sm-8">
           <input type="text" class="form-control" id="texttrader" placeholder="Comment">
@@ -54,15 +55,26 @@ export default {
 
     newBuyOrderShares() {
       if (this.sharesOrderQty != '' && (this.sharesLimitPrice == '' || this.sharesLimitPrice > 0 ) ) {
-        this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'buy', qty: Math.abs(this.sharesOrderQty), orderprice: this.sharesLimitPrice } )
-        this.cleanOms();
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'buy', qty: Math.abs(this.sharesOrderQty), orderprice: this.sharesLimitPrice } )
+            this.cleanOms();
+            return;
+          }
+        });
+
       }
     },
 
     newSellOrderShares() {
       if (this.sharesOrderQty != '' && (this.sharesLimitPrice == '' || this.sharesLimitPrice > 0 ) ) {
-        this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'sell', qty: -Math.abs(this.sharesOrderQty), orderprice: this.sharesLimitPrice } )
-        this.cleanOms();
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'sell', qty: -Math.abs(this.sharesOrderQty), orderprice: this.sharesLimitPrice } )
+            this.cleanOms();
+            return;
+          }
+        });
       }
     }
 
@@ -74,5 +86,16 @@ export default {
 </script>
 
 <style
+.input.is-danger, .textarea.is-danger {
+    border-color: #ff3860;
+}
 
+.help.is-danger {
+  color: #ff3860;
+}
+
+.help {
+  display: block;
+  margin-top: .25rem;
+}
 </style>

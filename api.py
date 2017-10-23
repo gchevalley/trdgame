@@ -76,6 +76,8 @@ def connect():
 
     data['game'] = {
         'currentRound': 9,
+        'gameOver': False,
+        'limitShortShares': -20000,
     }
 
     data['pendingOrders'] = []

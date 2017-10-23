@@ -5,11 +5,11 @@
       <div class="row">
         <div class="col-md-6">
           <h3>login</h3>
-          <form class="form-horizontal">
+          <form @submit.prevent="validateBeforeSubmit" class="form-horizontal">
             <div class="form-group">
               <label class="control-label col-sm-3" for="login">Email</label>
               <div class="col-sm-8">
-                <input v-validate="'required|email'"
+                <input v-validate.initial="'required|email'"
                 :class="{'input': true, 'is-danger': errors.has('email') }"
                 type="email" class="form-control"
                 v-model="email"
@@ -23,7 +23,7 @@
 
             <div class="form-group">
               <div class="col-sm-offset-3 col-sm-9">
-                <button type="button" class="btn btn-info" @click="joinTheGame">Join the Game</button>
+                <button type="submit" class="btn btn-info">Join the Game</button>
               </div>
             </div>
           </form>
@@ -50,11 +50,22 @@ export default {
       if (this.email != '') {
         this.$http.post(location.protocol + '//' + document.domain + ':' + '5000' + "/connect", {'login': this.email}).then(response => {
           this.$store.dispatch('login', response.data);
-          }, error => {
-            console.log(response);
-          });
+        }, error => {
+          console.log(response);
+        });
       }
+    },
+
+    validateBeforeSubmit() {
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+
+          this.joinTheGame();
+          return;
+        }
+      });
     }
+
   },
 
   components: {
@@ -65,6 +76,10 @@ export default {
 </script>
 
 <style>
+.input.is-danger, .textarea.is-danger {
+    border-color: #ff3860;
+}
+
 .help.is-danger {
   color: #ff3860;
 }
