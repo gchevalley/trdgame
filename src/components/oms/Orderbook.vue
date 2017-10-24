@@ -12,7 +12,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="order in $store.state.pendingOrders" :key="order.id">
+          <tr v-for="order in $store.state.pendingOrders" :key="order.orderid">
             <td>{{order.ordertimestamp}}</td>
             <td v-if="order.side == 'buy'"><span class="label label-info">{{order.qty | flexNumber(0, ".", "'")}} @ {{order.orderprice}}</span></td>
             <td v-else><span class="label label-danger">{{order.qty | flexNumber(0, ".", "'")}} @ {{order.orderprice}}</span></td>
@@ -35,7 +35,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="exec in $store.state.executedOrders">
+          <tr v-for="exec in $store.state.executedOrders" :key="exec.execid">
             <td>{{exec.exectimestamp}}</td>
             <td v-if="exec.side == 'buy'"><span class="label label-info">{{exec.qty | flexNumber(0, ".", "'")}}</span></td>
             <td v-else><span class="label label-danger">{{exec.qty | flexNumber(0, ".", "'")}}</span></td>

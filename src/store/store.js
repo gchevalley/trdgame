@@ -37,6 +37,9 @@ export const store = new Vuex.Store({
   },
 
   getters: {
+    gameId: state => {
+      return state.game.id;
+    },
     orderId: state => {
       return state.countOrder;
     },
@@ -81,7 +84,7 @@ export const store = new Vuex.Store({
     incOrderId: (state) => {
       state.countOrder++;
     },
-    
+
     login_player: (state, payLoad) => {
       state.player = payLoad;
     },
@@ -121,7 +124,7 @@ export const store = new Vuex.Store({
     },
 
     removeOrder: (state, payLoad) => {
-      state.pendingOrders = state.pendingOrders.filter(order => order.id != payLoad.id);
+      state.pendingOrders = state.pendingOrders.filter(order => order.orderid != payLoad.orderid);
     },
 
     insertNewExec: (state, payLoad) => {
@@ -166,13 +169,25 @@ export const store = new Vuex.Store({
         payLoad.ordertype = "MKT"
         payLoad.orderprice = 'MARKET';
       }
-      commit('incOrderId');
-      payLoad.id = getters.orderId;
+
+      payLoad.game_id = getters.gameId;
+
+      Vue.http.post(location.protocol + '//' + document.domain + ':' + '5000/neworder', payLoad).then(response => {
+        //console.log(response.data);
+        payLoad.orderid = response.data.orderid;
+        }, error => {
+          console.log(response);
+          commit('incOrderId');
+          payLoad.orderid = getters.orderId;
+        });
+
+
       console.log(payLoad);
       commit( 'insertNewOrder', payLoad );
     },
 
     CancelOrder: ({commit}, payLoad) => {
+      //console.log(payLoad);
       commit( 'removeOrder', payLoad );
     },
 
@@ -185,11 +200,29 @@ export const store = new Vuex.Store({
           order.orderprice = newPrice;
           order.execprice = newPrice;
           order.exectimestamp = moment().format("HH:mm:ss");
+
+          Vue.http.post(location.protocol + '//' + document.domain + ':' + '5000/newexecution', order).then(response => {
+            //console.log(response.data);
+            order.execid = response.data.execid;
+            }, error => {
+              console.log(response);
+            });
+            console.log(order);
           context.commit( 'insertNewExec', order );
           context.commit( 'removeOrder', order );
         } else if ( (order.ordertype == 'LMT' && order.side == 'buy' && order.orderprice >= newPrice) || (order.ordertype == 'LMT' && order.side == 'sell' && order.orderprice <= newPrice) ) {
           order.execprice = newPrice;
           order.exectimestamp = moment().format("HH:mm:ss");
+
+          Vue.http.post(location.protocol + '//' + document.domain + ':' + '5000/newexecution', order).then(response => {
+            //console.log(response.data);
+            order.execid = response.data.execid;
+            }, error => {
+              console.log(response);
+            });
+            console.log(order);
+
+
           context.commit( 'insertNewExec', order );
           context.commit( 'removeOrder', order );
         }

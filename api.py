@@ -10,6 +10,8 @@ import datetime
 import pandas as pd
 from time import sleep
 
+import copy
+
 
 app = Flask(__name__)
 CORS(app)
@@ -27,6 +29,12 @@ socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
 
+
+# https://fangpenlin.com/posts/2012/08/26/good-logging-practice-in-python/
+import logging
+logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 def background_thread():
     """Example of how to send server generated events to clients."""
@@ -75,7 +83,7 @@ def connect():
     }
 
     data['game'] = {
-        'currentRound': 9,
+        'currentRound': 0,
         'gameOver': False,
         'limitShortShares': -20000,
     }
@@ -83,20 +91,37 @@ def connect():
     data['pendingOrders'] = []
     data['executedOrders'] = []
 
+    data['game']['id'] = str(mongo.db.players_games.insert_one( copy.deepcopy(data) ).inserted_id)
+
+    logger.info('New connection from client: ' + json.dumps(data) )
+
     return jsonify(data)
 
 @app.route('/neworder', methods=['POST'])
 @cross_origin(origin='*')
 def new_order():
-    dict = request.json
-    dict['timestamp'] = server_time()
-    print('neworder !')
-    print(json.dumps(dict))
-    posts = mongo.db.posts
-    #post_id = posts.insert_one(dict).inserted_id
-    #print(post_id)
-    print(posts.count())
-    return jsonify('ok')
+    order = request.json
+
+    order['ordertimestamp'] = server_time()
+
+    order['orderid'] = str( mongo.db.orders.insert_one( copy.deepcopy(order) ).inserted_id )
+
+    logger.info('New order: ' + json.dumps(order) )
+
+    return jsonify(order)
+
+
+@app.route('/newexecution', methods=['POST'])
+@cross_origin(origin='*')
+def new_execution():
+    execution = request.json
+
+    execution['exectimestamp'] = server_time()
+    execution['execid'] = str( mongo.db.executions.insert_one( copy.deepcopy(execution) ).inserted_id )
+
+    logger.info('New execution: ' + json.dumps(execution) )
+
+    return jsonify(execution)
 
 
 @socketio.on('my_ping', namespace='/test')
@@ -108,6 +133,7 @@ def test_connect():
     global thread
     with thread_lock:
         if thread is None:
+            logger.info('Start TS thread')
             thread = socketio.start_background_task(target=background_thread)
     emit('my_connection', {'data': 'Connected'})
 
@@ -115,8 +141,8 @@ def test_connect():
 
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
-    print('Client disconnected', request.sid)
+    logger.info('Client disconnected', request.sid)
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True, host='0.0.0.0')
+    socketio.run(app, host='0.0.0.0', debug=True)
