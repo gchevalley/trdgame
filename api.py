@@ -3,6 +3,7 @@ from flask_socketio import SocketIO, emit, disconnect
 from flask_cors import CORS, cross_origin
 from flask_pymongo import PyMongo
 
+import os
 from threading import Lock
 import json
 import random
@@ -14,6 +15,11 @@ import copy
 
 
 app = Flask(__name__)
+
+app.config['MONGO_HOST'] = os.getenv('MONGO_HOST', 'localhost')
+
+
+
 CORS(app)
 mongo = PyMongo(app)
 
@@ -62,7 +68,7 @@ def spa():
     return render_template('index.html', async_mode=socketio.async_mode)
 
 @app.route('/connect', methods=['POST'])
-@cross_origin(origin='*')
+@cross_origin(origins='*')
 def connect():
     content = request.json
 
@@ -98,7 +104,7 @@ def connect():
     return jsonify(data)
 
 @app.route('/neworder', methods=['POST'])
-@cross_origin(origin='*')
+@cross_origin(origins='*')
 def new_order():
     order = request.json
 
@@ -112,7 +118,7 @@ def new_order():
 
 
 @app.route('/newexecution', methods=['POST'])
-@cross_origin(origin='*')
+@cross_origin(origins='*')
 def new_execution():
     execution = request.json
 

@@ -9,4 +9,4 @@ ADD static /usr/src/app/static
 ADD templates /usr/src/app/templates
 COPY api.py .
 
-CMD [ "python", "./api.py" ]
+EXPOSE 5000

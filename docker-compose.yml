@@ -1,0 +1,15 @@
+api:
+  build: .
+  command: python /usr/src/app/api.py
+  ports:
+   - "5000:5000"
+  volumes:
+   - .:/usr/src/app
+  links:
+   - db
+  environment:
+   - MONGO_HOST=${MONGO_HOST}
+  hostname: myappserver
+db:
+  hostname: ${MONGO_HOST}
+  image: mongo:3
