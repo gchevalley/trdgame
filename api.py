@@ -46,12 +46,14 @@ def background_thread():
     """Example of how to send server generated events to clients."""
     df = pd.read_csv('static/ts/IBM.csv')
     dfList = df['Adj Close'].tolist()
+
     while True:
         for number in dfList:
             socketio.sleep(random.randint(1,5))
             #number = random.randint(1,101)
             socketio.emit('my_response',
-                          {'number': round(number / (round(dfList[0],2)/100.0), 2)},
+                          {'number': round(number / (round(dfList[0],2)/100.0), 2),
+                          'survey': 'risks'},
                           namespace='/test')
 
 @app.route('/time')
@@ -82,6 +84,7 @@ def connect():
 
     data['portfolio'] = {
         'amountCash': 10000000,
+        'OrgAmountCash': 10000000,
         'positions': {
             'shares' : 0,
             'derivatives': []
@@ -128,6 +131,45 @@ def new_execution():
     logger.info('New execution: ' + json.dumps(execution) )
 
     return jsonify(execution)
+
+@app.route('/checksurvey/<survey>', methods=['POST'])
+@cross_origin(origins='*')
+def check_survey(survey):
+
+    logger.info('New survey submitted: ' + json.dumps(request.json) )
+
+    cSurvey = {}
+    cSurvey['name'] = survey
+    cSurvey['submittedContent'] = request.json
+    cSurvey['surveycompletetimestamp'] = server_time()
+
+    if survey == 'risks':
+        cSurvey['response'] = check_survey_risks(request.json)
+
+    return jsonify(cSurvey)
+
+def check_survey_risks(response_json):
+    subShares = float(response_json['shares'])
+    curShares = response_json['prtcontext']['shares']
+    curCash = response_json['prtcontext']['cash']
+    dictResponse = {}
+    if (abs(subShares) < 0.9 * abs(curShares) ):
+        dictResponse['message'] = "You massively underestimate your current risk"
+        dictResponse['adjustCash'] = -round(0.10 * curCash, 0)
+        if curShares>=0:
+            dictResponse['adjustShares'] = -(curShares-subShares)
+        else:
+            dictResponse['adjustShares'] = (curShares-subShares)
+    elif abs(subShares) > 1.1 * abs(curShares):
+        dictResponse['message'] = "You massively overestimate your current risk"
+        dictResponse['adjustCash'] = -round(0.10 * curCash, 0)
+        dictResponse['adjustShares'] = 0
+    else:
+        dictResponse['message'] = "Perfect !"
+        dictResponse['adjustCash'] = 0
+        dictResponse['adjustShares'] = 0
+
+    return dictResponse
 
 
 @socketio.on('my_ping', namespace='/test')

@@ -1,6 +1,7 @@
 <template>
   <div>
     <app-header></app-header>
+    <app-modal v-if="$store.getters.check_new_survey"></app-modal>
     <div class="container">
 
       <div class="row">
@@ -21,6 +22,8 @@
 <script>
 import Header from './Header.vue';
 
+import Modal from './Modal.vue';
+
 import Portfolio from './portfolio/Portfolio.vue';
 import Stockchart from './markets/Stockchart.vue';
 
@@ -37,6 +40,7 @@ export default {
 
   components: {
     appHeader: Header,
+    appModal: Modal,
     appPortfolio: Portfolio,
     appStockchart: Stockchart,
     appOms: Oms,

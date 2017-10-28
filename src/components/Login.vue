@@ -20,21 +20,30 @@
                 <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
               </div>
             </div>
-
+<!--
             <div class="form-group">
               <div class="col-sm-offset-3 col-sm-9">
-                <button type="submit" class="btn btn-info">Join the Game</button>
+                <vue-recaptcha sitekey="6LdQRDYUAAAAAIgiW_rghof0x6X5bRs1-kn_VrY5">
+                  <button type="submit" class="btn btn-primary">Join the game</button>
+                </vue-recaptcha>
               </div>
-            </div>
-          </form>
+            </div>-->
+
+            <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+            <button type="submit" class="btn btn-primary">Join the Game</button>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
+</div>
+</div>
 </template>
 
 <script>
-//import Trading from './components/Trading.vue';
+
+import VueRecaptcha from 'vue-recaptcha';
 import Header from './Header.vue';
 
 export default {
@@ -70,6 +79,7 @@ export default {
 
   components: {
     appHeader: Header,
+    VueRecaptcha,
   },
 
 }

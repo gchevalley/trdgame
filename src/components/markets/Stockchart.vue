@@ -8,6 +8,10 @@
     ref="stockchart"
     :listener="chartEvent">
   </vue-chartist>
+  <p>Quick
+    <button v-for="quick in quickOrders" type="button" class="btn btn-sm btn-info" @click="newQuickOrderShares('buy', quick)">+{{quick}}</button>
+    <button v-for="quick in quickOrders" type="button" class="btn btn-sm btn-danger" @click="newQuickOrderShares('sell', -quick)">-{{quick}}</button>
+  </p>
   </div>
 </template>
 
@@ -19,6 +23,8 @@ export default {
 
   data () {
     return {
+
+      quickOrders: [100, 500, 1000, 2000, 5000],
 
       // We are setting a few options for our chart and override the defaults
       chartOptions: {
@@ -62,6 +68,9 @@ export default {
   },
 
   methods: {
+    newQuickOrderShares(side, qty) {
+      this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: side, qty: qty, orderprice: '' } )
+    },
   },
 
   computed: {

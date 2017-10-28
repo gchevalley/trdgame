@@ -24,7 +24,7 @@
       <hr />
     </div>
     <div v-show="$store.state.executedOrders.length > 0">
-      <h3>Executions</h3>
+      <h3>Executions <small>average price per share: <span class="label label-info">{{$store.getters.calc_avg_buy | flexNumber(2, ".", "'")}}</span> / <span class="label label-danger">{{$store.getters.calc_avg_sell | flexNumber(2, ".", "'")}}</span></small></h3>
       <table class="table">
         <thead>
           <tr>

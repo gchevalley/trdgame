@@ -26,6 +26,8 @@ Vue.filter('flexCurrency', flexCurrency);
 import VeeValidate from 'vee-validate';
 Vue.use(VeeValidate);
 
+import Survey from 'survey-vue';
+Vue.prototype.$Survey = Survey;
 
 new Vue({
   el: '#app',
