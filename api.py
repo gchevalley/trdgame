@@ -45,15 +45,28 @@ logger = logging.getLogger(__name__)
 def background_thread():
     """Example of how to send server generated events to clients."""
     df = pd.read_csv('static/ts/IBM.csv')
-    dfList = df['Adj Close'].tolist()
+    df = df.fillna(-1)
+    prices = df['Adj Close'].tolist()
+    times = df['Metronome'].tolist()
+    surveys = df['Survey'].tolist()
+    disturbances = df['Disturbance'].tolist()
 
     while True:
-        for number in dfList:
-            socketio.sleep(random.randint(1,5))
+        for idx in range(len(prices)):
+            socketio.sleep( times[idx] )
             #number = random.randint(1,101)
+            socket_reponse = {'number': round( prices[idx] / (round( prices[0],2) / 100.0), 2) }
+
+            if surveys[idx] != -1:
+                logger.info('Found survey in timeserie: ' + json.dumps(surveys[idx]) )
+                socket_reponse['survey'] = surveys[idx]
+            if disturbances[idx] != -1:
+                logger.info('Found disturbance in timeserie: ' + json.dumps(disturbances[idx]) )
+                socket_reponse['disturbance'] = disturbances[idx]
+
+            logging.info("emit price update: " + json.dumps(socket_reponse) )
             socketio.emit('my_response',
-                          {'number': round(number / (round(dfList[0],2)/100.0), 2),
-                          'survey': 'risks'},
+                          socket_reponse,
                           namespace='/test')
 
 @app.route('/time')
@@ -189,7 +202,7 @@ def test_connect():
 
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
-    logger.info('Client disconnected', request.sid)
+    logger.info('Client disconnected:' + request.sid)
 
 
 if __name__ == '__main__':

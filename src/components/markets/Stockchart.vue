@@ -1,18 +1,30 @@
 <template>
   <div class="col-md-8">
-    <vue-chartist id="stockchart"
-    class="ct-major-tenth"
-    :data="chartData"
-    :options="chartOptions"
-    type="Line"
-    ref="stockchart"
-    :listener="chartEvent">
-  </vue-chartist>
-  <p>Quick
-    <button v-for="quick in quickOrders" type="button" class="btn btn-sm btn-info" @click="newQuickOrderShares('buy', quick)">+{{quick}}</button>
-    <button v-for="quick in quickOrders" type="button" class="btn btn-sm btn-danger" @click="newQuickOrderShares('sell', -quick)">-{{quick}}</button>
-  </p>
+    <div v-if="$store.getters.status_disturbances.marketdatafeed.status">
+      <h2>market data feed issue</h2>
+      <p>Trading is still up</p>
+    </div>
+    <div v-else>
+      <vue-chartist id="stockchart"
+      class="ct-major-tenth"
+      :data="chartData"
+      :options="chartOptions"
+      type="Line"
+      ref="stockchart"
+      :listener="chartEvent">
+    </vue-chartist>
+
+    <p>Quick
+      <div class="col-md-6">
+      <button v-for="quick in quickOrders" type="button" class="btn btn-sm btn-info" @click="newQuickOrderShares('buy', quick)">+{{quick}}</button>
+    </div>
+    <div class="col-md-6">
+      <button v-for="quick in quickOrders" type="button" class="btn btn-sm btn-danger" @click="newQuickOrderShares('sell', -quick)">-{{quick}}</button>
+    </div>
+    </p>
   </div>
+
+</div>
 </template>
 
 <script>

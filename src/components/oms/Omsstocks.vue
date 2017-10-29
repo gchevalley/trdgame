@@ -1,36 +1,65 @@
 <template>
   <div>
-    <h3>New Order - Shares</h3>
-    <form class="form-horizontal">
-      <div class="form-group">
-        <label class="control-label col-sm-4" for="quantity">Quantity</label>
-        <div class="col-sm-6">
-          <input type="number" v-validate="'required|max_value:10000'" class="form-control" :class="{'input': true, 'is-danger': errors.has('quantity') }" id="quantity" name="quantity" placeholder="Enter quantity" v-model.number="sharesOrderQty">
-          <span v-show="sharesOrderQty>10000" class="help is-danger">Quantity is capted to 10'000 for liquidity reasons</span>
-        </div>
-      </div>
+    <div v-if="$store.getters.status_disturbances.softwareupgrade.status">
+      <h3>вставить новый заказ - акции</h3>
+      <form class="form-horizontal">
 
-      <div class="form-group">
-        <label class="control-label col-sm-4" for="shareslimitprice">Price</label>
-        <div class="col-sm-6">
-          <input type="number" class="form-control" id="shareslimitprice" placeholder="Market" v-model.number="sharesLimitPrice">
+        <div class="form-group">
+          <label class="control-label col-sm-4" for="shareslimitprice">цена</label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" id="shareslimitpricerus" v-model.number="sharesLimitPrice">
+          </div>
         </div>
-      </div>
 
-      <div v-show="$store.state.player.textTrader" class="form-group">
-        <label class="control-label col-sm-4" for="texttrader">Text trader</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control" id="texttrader" placeholder="Comment">
+        <div class="form-group">
+          <label class="control-label col-sm-4" for="quantity">количество</label>
+          <div class="col-sm-6">
+            <input type="number" v-validate="'required|max_value:10000'" class="form-control" :class="{'input': true, 'is-danger': errors.has('quantity') }" id="quantityrus" name="quantityrus" v-model.number="sharesOrderQty">
+            <span v-show="sharesOrderQty>10000" class="help is-danger">Quantity is capted to 10'000 for liquidity reasons</span>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-10">
-          <button type="button" class="btn btn-info btn-lg" @click="newBuyOrderShares">Buy</button>
-          <button type="button" class="btn btn-danger btn-lg" @click="newSellOrderShares">Sell</button>
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-10">
+            <button type="button" class="btn btn-lg" @click="newSellOrderShares">продавать</button>
+            <button type="button" class="btn btn-lg" @click="newBuyOrderShares">купить</button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
+    <div v-else>
+      <h3>New Order - Shares</h3>
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-sm-4" for="quantity">Quantity</label>
+          <div class="col-sm-6">
+            <input type="number" v-validate="'required|max_value:10000'" class="form-control" :class="{'input': true, 'is-danger': errors.has('quantity') }" id="quantity" name="quantity" placeholder="Enter quantity" v-model.number="sharesOrderQty">
+            <span v-show="sharesOrderQty>10000" class="help is-danger">Quantity is capted to 10'000 for liquidity reasons</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-4" for="shareslimitprice">Price</label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" id="shareslimitprice" placeholder="Market" v-model.number="sharesLimitPrice">
+          </div>
+        </div>
+
+        <div v-show="$store.state.player.textTrader" class="form-group">
+          <label class="control-label col-sm-4" for="texttrader">Text trader</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="texttrader" placeholder="Comment">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-10">
+            <button type="button" class="btn btn-info btn-lg" @click="newBuyOrderShares">Buy</button>
+            <button type="button" class="btn btn-danger btn-lg" @click="newSellOrderShares">Sell</button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 

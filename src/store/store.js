@@ -13,13 +13,21 @@ export const store = new Vuex.Store({
   state: {
 
     connected: false,
+
     showModal: false,
-    surveys: [{
-      completed: false,
-      name: 'risks',
-      submittedContent: {},
-      response: {},
-    }],
+
+    surveys: [],
+
+    disturbances: {
+      marketdatafeed: {
+        status: false,
+        roundRemaining: 20
+      },
+      softwareupgrade: {
+        status: false,
+        roundRemaining: 60
+      }
+    },
 
     player: {
     },
@@ -140,6 +148,10 @@ export const store = new Vuex.Store({
         return 'width:' + (100*(state.portfolio.positions.shares / state.game.limitShortShares)) + "%";
       }
     },
+
+    status_disturbances: state => {
+      return state.disturbances;
+    },
   },
 
   mutations: {
@@ -181,6 +193,27 @@ export const store = new Vuex.Store({
 
     login_connect: (state) => {
       state.connected = true;
+    },
+
+    updateDisturbancesTimer: (state) => {
+      for (let [name, disturbance] of Object.entries(state.disturbances)) {
+        if (disturbance.status == true) {
+          disturbance.roundRemaining--;
+          console.log(disturbance);
+          if (disturbance.roundRemaining == 0) {
+            disturbance.status = false;
+          }
+        }
+      }
+    },
+
+    activate_disturbance: (state, payLoad) => {
+      for (let [name, disturbance] of Object.entries(state.disturbances)) {
+        if (name == payLoad) {
+          disturbance.status = true;
+          console.log(disturbance);
+        }
+      }
     },
 
     insertNewPriceInMarket: (state, payLoad = -1) => {
@@ -410,9 +443,14 @@ export const store = new Vuex.Store({
       submittedContent: {},
       response: {},
     };
-    //context.commit( 'insertNewSurvey', newSurvey );
+    context.commit( 'insertNewSurvey', newSurvey );
   }
 
+  if (message.hasOwnProperty('disturbance') ) {
+    //console.log("disturbance from last price update: " + message.disturbance)
+    context.commit( 'activate_disturbance', message.disturbance )
+  }
+  context.commit('updateDisturbancesTimer');
   context.commit('insertNewPriceInMarket', newPrice);
 },
 }
