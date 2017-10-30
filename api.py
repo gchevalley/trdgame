@@ -50,6 +50,10 @@ def background_thread():
     times = df['Metronome'].tolist()
     surveys = df['Survey'].tolist()
     disturbances = df['Disturbance'].tolist()
+    news_title = df['NewsTitle'].tolist()
+    news_details = df['NewsDetails'].tolist()
+    new_category = df['NewsCategory'].tolist()
+    news_timeout = df['NewsTimeout'].tolist()
 
     while True:
         for idx in range(len(prices)):
@@ -63,6 +67,13 @@ def background_thread():
             if disturbances[idx] != -1:
                 logger.info('Found disturbance in timeserie: ' + json.dumps(disturbances[idx]) )
                 socket_reponse['disturbance'] = disturbances[idx]
+            if news_title[idx] != -1:
+                logger.info('Found news in timeserie: ' + json.dumps(news_title[idx]) )
+                socket_reponse['news'] = {'title': news_title[idx],
+                'details': news_details[idx],
+                'category': new_category[idx],
+                'timeout': news_timeout[idx]
+                }
 
             logging.info("emit price update: " + json.dumps(socket_reponse) )
             socketio.emit('my_response',

@@ -14,6 +14,12 @@
         <app-orderbook></app-orderbook>
       </div>
 
+      <div class="row">
+        <div class="col-md-4">
+        </div>
+        <app-news></app-news>
+      </div>
+
 
     </div>
   </div>
@@ -30,6 +36,8 @@ import Stockchart from './markets/Stockchart.vue';
 import Oms from './oms/Oms.vue';
 import Orderbook from './oms/Orderbook.vue';
 
+import News from './news/News.vue';
+
 export default {
 
   data () {
@@ -44,7 +52,8 @@ export default {
     appPortfolio: Portfolio,
     appStockchart: Stockchart,
     appOms: Oms,
-    appOrderbook: Orderbook
+    appOrderbook: Orderbook,
+    appNews: News
   },
 
   sockets:{

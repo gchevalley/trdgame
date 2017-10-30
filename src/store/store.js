@@ -29,6 +29,8 @@ export const store = new Vuex.Store({
       }
     },
 
+    news: [],
+
     player: {
     },
 
@@ -205,6 +207,18 @@ export const store = new Vuex.Store({
           }
         }
       }
+    },
+
+    inject_news: (state, payLoad) => {
+      console.log(payLoad);
+      state.news = [payLoad].concat( state.news );
+    },
+
+    updateNewsTimer: (state) => {
+      for (let [name, news] of Object.entries(state.news)) {
+        news.timeout--;
+      }
+      state.news = state.news.filter(item => item.timeout != 0);
     },
 
     activate_disturbance: (state, payLoad) => {
@@ -451,6 +465,13 @@ export const store = new Vuex.Store({
     context.commit( 'activate_disturbance', message.disturbance )
   }
   context.commit('updateDisturbancesTimer');
+
+  if (message.hasOwnProperty('news') ) {
+    context.commit( 'inject_news', message.news )
+  }
+  context.commit('updateNewsTimer');
+
+
   context.commit('insertNewPriceInMarket', newPrice);
 },
 }
