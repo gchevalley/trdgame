@@ -1,24 +1,24 @@
 id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,NewsTimeout
 1,5,145.515335,,,,,,
 2,1,146.98468,,,,,,
-3,1,144.67186,,,kdsf,dslkjf,micro,3
+3,1,144.67186,,,,,,
 4,3,141.551895,,,,,,
 5,5,140.626755,,,,,,
 6,2,143.683289,,,,,,
 7,1,144.309113,,,,,,
 8,5,141.887466,,,,,,
-9,5,142.223053,,,blib,blab,macro,50
+9,5,142.223053,,,,,,
 10,2,141.307007,,,,,,
 11,3,140.191422,,,,,,
 12,5,142.522339,,,,,,
 13,1,142.350021,,,,,,
-14,5,137.942108,,,kjfds,sfk,company,10
+14,5,137.942108,,,,,,
 15,2,140.935135,,,,,,
 16,3,141.370483,,,,,,
 17,3,141.814926,,,,,,
 18,1,139.375122,,,,,,
 19,5,137.452347,,,,,,
-20,3,141.016754,,,dsk,slkjf,company,2
+20,3,141.016754,,,,,,
 21,2,139.048615,,,,,,
 22,1,140.273056,,,,,,
 23,5,143.728622,,,,,,
@@ -44,34 +44,42 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 43,4,145.604538,,,,,,
 44,3,147.212006,,,,,,
 45,3,144.764252,,,,,,
-46,2,146.837555,,,,,,
+46,2,146.837555,,,North Pole could contain 5000 years worth of oil,-,macro,5
 47,5,144.134064,,,,,,
 48,2,143.211578,,,,,,
-49,4,144.289337,,,,,,
-50,4,140.909988,,,,,,
-51,5,143.4673,,,,,,
-52,5,143.357697,,,,,,
-53,4,145.960739,,,,,,
-54,5,145.960739,,,,,,
-55,4,148.764679,,,,,,
+49,4,144.289337,,,Donald TRUMP running for another term,-,macro,5
+50,4,140.909988,,,China :Toughest winter since 1856,-,macro,5
+51,5,143.4673,,,Angela Merkel steps down,-,macro,5
+52,5,143.357697,,,Peugeot showing outstanding performance in Q3,-,macro,5
+53,4,145.960739,,,Apple to stop producing iPads,-,macro,5
+54,5,145.960739,,,Kering : best quarter since Q1 2015,-,macro,5
+55,4,148.764679,,,Japan : Racoons are invading 1000 years old monastries,-,macro,5
 56,1,150.363037,,,,,,
-57,2,148.874252,,,,,,
+57,2,148.874252,,,Kazaksthan is building a new oil pipe to russia,-,macro,5
 58,2,145.40361,,,,,,
 59,3,146.673111,,,,,,
-60,1,146.499603,,,,,,
-61,1,148.572891,,,,,,
-62,4,146.590973,,,,,,
-63,4,145.385345,,,,,,
-64,5,146.545258,,,,,,
-65,4,147.997513,,,,,,
+60,1,146.499603,,,Shell CEO steps down amid blackmail scandal,-,macro,5
+61,1,148.572891,,,VW to pay $1bn fine to european consumers,-,macro,5
+62,4,146.590973,,,Adidas to produce sneakers from ocean waste ,-,macro,5
+63,4,145.385345,,,Russia : Moscow drops visa obligations for foregin workers,-,macro,5
+64,5,146.545258,,,Music : Eminem to perform in Mumbai next july,-,macro,5
+65,4,147.997513,,,Michelin annonces best in classe eco-tires,-,macro,5
 66,5,148.024887,,,,,,
 67,1,147.823975,,,,,,
 68,4,148.271469,,,,,,
 69,1,148.746429,,,,,,
 70,2,148.308044,,,,,,
 71,2,148.234955,,,,,,
-72,1,149.906372,,,,,,
-73,5,148.993011,,,,,,
+72,1,149.906372,,,France to lower VAT to 8%,,macro,5
+73,5,148.993011,,,"_______ __________ __________ ____+ _ ________ ________ 120% (_________ __ ____:
+http://tass.ru/ekonomika/4666579)","______, ___________ _ __________ __ __________ ______ _____ ____+, __ ______ _______ 2017 ____ _________ _____________ __ 120%. __ ____ ________ _ _______ _____-______ ____.
+""_______ __________ __________ _____ ____ _ __-____ _ ________ 2017 ____ ______ 120%"", - _________ _ _________.
+____________ ______________ _______ ____ _________ _______ __ _________, _______ ______ __ _______ ______________ _____ _____.
+""___ _____ __ __________ __________ __________ ________ _________"", - ____________ _ _____-______.
+_________ _______ _____________ _______________ ________ _________ __ 29 ______ - __ ____ __ ________ ___________ _ ____, __ _______, ___ _________, _____ ___________ ______ _ _________ _________ ______ __ ___________ ______ _____ _____ _____ 2018 ____.
+
+
+",macro,5
 74,5,146.746201,,,,,,
 75,2,151.760452,,,,,,
 76,4,150.025101,,,,,,
@@ -82,7 +90,7 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 81,4,158.847946,,,,,,
 82,5,159.286362,,,,,,
 83,3,156.445877,,,,,,
-84,5,158.619614,,,,,,
+84,5,158.619614,,,Sprint's Merger Talks With T-Mobile Are in Peril (Source : Bloomberg),-,macro,5
 85,1,158.893616,,,,,,
 86,4,158.080765,,,,,,
 87,1,156.488708,,,,,,
@@ -109,25 +117,25 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 108,2,154.050049,,,,,,
 109,3,151.480471193152,,,,,,
 110,3,152.784151235566,,,,,,
-111,2,150.913639500932,,,,,,
+111,2,150.913639500932,,,Gazprom says more than half of Power of Siberia pipeline ready (Source : http://tass.com),Russia’s top gas producer Gazprom has built 1,macro,5
 112,5,150.271307925583,,,,,,
 113,2,151.197094356051,,,,,,
-114,3,152.179553690212,,,,,,
-115,2,152.05671637509,,,,,,
+114,3,152.179553690212,,,Industry : Tesla to build the largest ever automotive factory,-,macro,5
+115,2,152.05671637509,,,France's nuclear supplies won't be enough to make it through winter,-,macro,5
 116,4,153.029777617826,,,,,,
 117,5,149.931211989909,,,,,,
 118,5,148.882589270872,,,,,,
 119,5,149.16596508142,,,,,,
 120,5,148.899270754833,,,,,,
 121,3,147.756241102107,,,,,,
-122,4,149.308883823573,,,,,,
+122,4,149.308883823573,,,Oil Extends Two-Year High as Saudis, Russia Back Prolonged Cuts (Source : Bloomberg),macro,5
 123,4,148.127726971106,,,,,,
 124,4,148.746876929791,,,,,,
 125,2,147.708622394631,,,,,,
 126,2,148.356358770783,,,,,,
 127,5,148.889747423959,,,,,,
 128,2,148.60400540907,,,,,,
-129,1,146.632274535974,,,,,,
+129,1,146.632274535974,,,Small Caps Lead U.S. Stock Losses, Treasuries Rise: Markets Wrap (Source : Bloomberg),macro,5
 130,4,145.413038731752,,,,,,
 131,3,141.783888993071,,,,,,
 132,1,136.65926936786,,,,,,
@@ -140,28 +148,54 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 139,1,138.164309806696,,,,,,
 140,3,139.812141695129,,,,,,
 141,5,136.87837681011,,,,,,
-142,3,140.240801425617,,,,,,
-143,4,138.164309806696,,,,,,
+142,3,140.240801425617,,,Kazakhstan’s economy expected to grow at least 3.4 percent by year’s end, says minister (Source : https://astanatimes.com/),macro,5
+143,4,138.164309806696,,,Fire hits Lukoil refinery in Russia's Urals (Source : reuters.com),"A fire erupted at a refinery of Russia’s No.2 oil producer Lukoil in the city of Perm in the Urals region, a local branch of the company, Lukoil Permnefteorgsintez, said on Friday.
+
+The fire at the Crude Distillation Unit-3 was localized at around 0300 GMT and an open combustion was extinguished two hours later, Lukoil’s press service said on the local emergency service website.
+
+Lukoil also said the fire broke out amid attempts to restart the unit after maintenance. No one was injured in the incident, the company said.
+
+Russia’s oil pipeline monopoly Transneft (TRNF_p.MM) said in a separate comment on Friday that oil supplies to the Perm refinery will be reduced for the next three days.",macro,5
 144,4,139.259674557067,,,,,,
 145,4,140.374163987204,,marketdatafeed,,,,
 146,1,138.735777411627,,,,,,
 147,2,140.526558838799,,,,,,
 148,5,141.364784416595,,,,,,
 149,3,141.107644217468,,,,,,
-150,1,137.649905195544,,,,,,
-151,3,139.526384281948,,,,,,
+150,1,137.649905195544,,,Russia plans to increase launches from Baikonur in 2018 (Source : http://tass.com/),-,macro,5
+151,3,139.526384281948,,,BP considers participating in several new projects of Rosneft (Source : http://tass.com/),-,macro,5
 152,1,137.573715468893,,,,,,
 153,4,136.840297858354,,,,,,
 154,1,137.554668807145,,,,,,
 155,5,138.516701792515,,,,,,
-156,2,135.754363022546,,,,,,
+156,2,135.754363022546,,,Tiny Singapore has world's most powerful passport: ranking (Source : afp),"Tiny Singapore now has the world's most powerful passport, according to a new ranking, with its citizens able to travel to the greatest number of countries visa free.
+
+Passport Index, which keeps track of how useable such documents are, said the city-state grabbed the top spot after Paraguay removed restrictions for Singaporeans.
+
+That means the approximately 3.4 million holders of Singaporean passports can now travel to 159 countries either without a visa at all, or can have one issued on arrival.
+
+Germany came in second place, with its citizens able to visit 158 countries without a visa, while Sweden and South Korea tied for third.
+
+The US passport was in sixth place, alongside Malaysia, Ireland and Canada.
+
+Afghanistan came bottom of the list with visa-free access to just 22 countries.
+
+Passport Index said the US passport's usefulness has fallen since President Donald Trump took office, with Turkey and the Central African Republic becoming the most recent countries to revoke their visa-free entry for holders.
+
+Passport Index ranks passports worldwide based on the cross-border access a holder has. It was developed by Canada-based global consultancy Arton Capital.
+
+""For the first time ever, an Asian country has the most powerful passport in the world,"" Philippe May, managing director of Arton Capital's Singapore office, said in a statement.
+
+""It is a testament of Singapore's inclusive diplomatic relations and effective foreign policy.""
+
+mba/hg ",macro,5
 157,3,135.706776138209,,,,,,
 158,4,138.088088256906,,,,,,
 159,3,136.773600665991,,,,,,
-160,3,137.7166177862,,,,,,
+160,3,137.7166177862,,,UN to vote on extending Syria gas attacks probe,-,macro,5
 161,1,141.964870262134,,,,,,
 162,2,141.717191800708,,,,,,
-163,4,142.965029420692,,,,,,
+163,4,142.965029420692,,,Japan gears up to go to the polls amid war fears,Over the past two weeks,macro,5
 164,5,145.051076193626,,,,,,
 165,3,145.155836939452,,,,,,
 166,5,143.96518857925,,,,,,
@@ -170,8 +204,23 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 169,3,146.756596736059,,,,,,
 170,4,148.817756480867,,,,,,
 171,4,152.891642076456,,,,,,
-172,2,160.590767990302,,,,,,
-173,4,161.354652614773,,,,,,
+172,2,160.590767990302,,,Nuclear North Korea is non-negotiable, diplomat says (Source : bbc.com),macro,5
+173,4,161.354652614773,,,Alarm over decline in flying insects (Source : bbc.com),"Source : bbc.com It's known as the windscreen phenomenon. When you stop your car after a drive, there seem to be far fewer squashed insects than there used to be.
+Scientists have long suspected that insects are in dramatic decline, but new evidence confirms this.
+Research at more than 60 protected areas in Germany suggests flying insects have declined by more than 75% over almost 30 years.
+And the causes are unknown.
+""This confirms what everybody's been having as a gut feeling - the windscreen phenomenon where you squash fewer bugs as the decades go by,"" said Caspar Hallmann of Radboud University in The Netherlands.
+""This is the first study that looked into the total biomass of flying insects and it confirms our worries.''
+The study is based on measurements of the biomass of all insects trapped at 63 nature protection areas in Germany over 27 years since 1989.
+The data includes thousands of different insects, such as bees, butterflies and moths.
+Scientists say the dramatic decline was seen regardless of habitat, land use and the weather, leaving them at a loss to explain what was behind it.
+They stressed the importance of adopting measures known to be beneficial for insects, including strips of flowers around farmland and minimising the effects of intensive agriculture.
+And they said there was an urgent need to uncover the causes and extent of the decline in all airborne insects.
+""We don't know exactly what the causes are,'' said Hans de Kroon, also of Radboud University, who supervised the research.
+''This study shows how important it is to have good monitoring programmes and we need more research right now to look into those causes - so, that has really high priority.''
+The finding was even more worrying given that it was happening in nature reserves, which are meant to protect insects and other living species, the researchers said.
+''In the modern agricultural landscape, for insects it's a hostile environment, it's a desert, if not worse,'' said Dr de Kroon.
+''And the decline there has been well documented. The big surprise is that it is also happening in adjacent nature reserves.''",macro,5
 174,3,162.191257278882,,,,,,
 175,1,160.530142328158,,,,,,
 176,3,161.015175817333,,,,,,
@@ -182,7 +231,7 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 181,4,165.258764571614,,,,,,
 182,3,167.077490866446,,,,,,
 183,5,167.077490866446,,,,,,
-184,5,169.926743212548,,,,,,
+184,5,169.926743212548,,,Nazarbayev greets Russian counterpart on diplomatic relations anniversary (http://www.inform.kz/),http://www.inform.kz/en/president-nazarbayev-greets-russian-counterpart-on-anniversary-of-diplomatic-relations_a3077699,macro,5
 185,3,168.61732630086,,,,,,
 186,2,170.242003062975,,,,,,
 187,4,169.975255275364,,,,,,
@@ -192,8 +241,8 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 191,3,175.552586812069,,,,,,
 192,1,178.28062627755,,,,,,
 193,3,178.341222466216,,,,,,
-194,2,180.20844160203,,,,,,
-195,2,179.565874937537,,,,,,
+194,2,180.20844160203,,,Apple sees its mobile devices as platform for artificial intelligence,Apple Inc (AAPL.O) sees its mobile devices as a major platform for artificial intelligence in the future,macro,5
+195,2,179.565874937537,,,Lukoil to keep output steady with new projects outside Russia - CEO Source : reuters.com,Lukoil (LKOH.MM) plans to keep pumping 100 million tonnes of oil per year between 2018 and 2027 with projects outside Russia and will keep annual investment at $8 billion-$8.5 billion,macro,5
 196,2,176.292216045859,,,,,,
 197,3,179.383969759082,,,,,,
 198,1,179.929569963445,,,,,,
@@ -202,12 +251,18 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 201,4,183.627579016653,,,,,,
 202,2,184.924911802491,,,,,,
 203,3,184.379350041794,,,,,,
-204,1,181.869507857443,,,,,,
+204,1,181.869507857443,,,The Oligarchs Are Next: Russian Businessmen Prepare for U.S. Sanctions,"The Russian members of the Forbes list are worried about the Countering America’s Adversaries Through Sanctions Act that U.S. President Donald Trump signed into law on Aug. 2, 2017. By adversaries’ it means Iran, Russia, and North Korea.
+
+The Act stipulates that the U.S. Treasury Department, Director of National Intelligence, and the Secretary of State have 180 days that is, until approximately February 2018  to present a detailed report on Russian oligarchs and senior officials involved in Russia’s foreign policy to a special committee of the U.S. Congress.
+
+The document indicates that anyone whose name appears on the list could be targeted with personal sanctions. Such sanctions typically prohibit individuals from entering U.S. territory, freeze their assets, and ban them from doing business with U.S. citizens and companies. Source : themoscowtimes.com",macro,5
 205,4,181.8937927216,,,,,,
 206,5,179.747722450491,,,,,,
 207,1,181.081425507793,,,,,,
 208,4,180.960154961671,,,,,,
-209,4,181.420892053588,,,,,,
+209,4,181.420892053588,,,"Libyan oil may crush Russian ruble again
+","Libyan oil may crush Russian ruble again
+_______ ______ __ http://www.pravdareport.com/business/companies/01-06-2017/137888-libya_oil_russia-0/",macro,5
 210,5,183.360850450875,,,,,,
 211,3,183.275988619884,,,,,,
 212,5,183.954962718053,,,,,,
@@ -219,7 +274,7 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 218,4,180.42669654866,,,,,,
 219,2,180.754080250059,,,,,,
 220,1,182.43937370413,,,,,,
-221,2,178.316996549014,,,,,,
+221,2,178.316996549014,,,Russian Journalist Yekaterina Gordon Announces She'll Run for President in March 2018 (Source : themoscowtimes.com),-,macro,5
 222,4,176.946903998415,,,,,,
 223,2,176.134575228274,,,,,,
 224,4,174.752380611446,,,,,,
@@ -234,7 +289,9 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 233,3,182.963601792804,,,,,,
 234,1,181.176317291385,,,,,,
 235,5,180.368389039608,,,,,,
-236,2,177.418123396744,,,,,,
+236,2,177.418123396744,,,"Russia buys more gold, intensifies activities in Asia to bury the US dollar
+","Russia has recently concluded major oil and gas contracts with leading Asian countries. According to the South China Morning Post, Russia's ambitious gas projects in the Far East may trigger a sharp decline in the volume of US oil and gas contracts with Tokyo and Beijing.
+_______ ______ __ http://www.pravdareport.com/business/finance/27-10-2017/139051-russia_gold-0/",macro,5
 237,4,180.258204365464,,,,,,
 238,3,179.670623677232,,,,,,
 239,4,181.555811382789,,,,,,
@@ -276,7 +333,7 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 275,5,207.96093654924,,,,,,
 276,4,209.450228326193,,,,,,
 277,4,211.221965184647,,,,,,
-278,2,209.950943831364,,,,,,
+278,2,209.950943831364,,,Russian Government Announces First Blockchain Project (Source : themoscowtimes.com/),,macro,5
 279,5,208.269089787394,,,,,,
 280,1,205.18780829443,,,,,,
 281,4,205.444583512799,,,,,,
@@ -289,7 +346,8 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 288,1,216.062149924966,,,,,,
 289,3,216.344595006467,,,,,,
 290,1,215.715511699105,,,,,,
-291,5,214.059307711276,,,,,,
+291,5,214.059307711276,,,"Russia introduces new money for the first time in eight years
+",_______ ______ __ http://www.pravdareport.com/business/finance/12-10-2017/138909-russia_new_money-0/,macro,5
 292,2,213.99511324645,,,,,,
 293,1,215.176311206228,,,,,,
 294,5,214.829633366381,,,,,,
@@ -310,7 +368,7 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 309,4,220.421113232781,,,,,,
 310,2,221.259987302095,,,,,,
 311,5,222.20986414518,,,,,,
-312,1,224.121932870313,,,,,,
+312,1,224.121932870313,,,Rosneft's Plans for Bashneft Shareholders Make Russia's Investors Jittery (Source : themoscowtimes.com/),-,macro,5
 313,4,223.813547074007,,,,,,
 314,1,222.876000375729,,,,,,
 315,2,222.370213933404,,,,,,
@@ -330,7 +388,9 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 329,1,217.68254086539,,,,,,
 330,1,216.769658233187,,,,,,
 331,3,216.880681148082,,,,,,
-332,2,218.644731488618,,,,,,
+332,2,218.644731488618,,,"Russia to take crypto currencies under control
+","_______ ______ __ http://www.pravdareport.com/business/finance/04-09-2017/138585-russia_crypto_currency-0/.   The State Duma of the Russian Federation may pass a law on the regulation of crypto currencies this autumn. In the near future, a special meeting dedicated to the issue of crypto-currencies will be held with the participation of representatives of the Central Bank, the Ministry of Finance, and the expert community to elaborate basic principles for the regulation of the market of crypto currencies. The workgroup at the State Duma will discuss the definition of crypto currency as a financial instrument.
+_______ ______ __ http://www.pravdareport.com/business/finance/04-09-2017/138585-russia_crypto_currency-0/",macro,5
 333,2,216.683279243242,,,,,,
 334,5,216.744956402503,,,,,,
 335,2,214.499801309201,,,,,,
@@ -359,12 +419,17 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 358,1,198.302536632923,,,,,,
 359,4,197.858426091039,,,,,,
 360,5,197.451329901161,,,,,,
-361,4,198.119539242602,,,,,,
+361,4,198.119539242602,,,Big Oil Set for Bumper Profits Despite Cheap Crude,When some of the world’s largest energy companies report earnings next week,macro,5
 362,3,199.87147309152,,,,,,
 363,4,200.27193804608,,,,,,
 364,4,200.925266459876,,,,,,
 365,4,201.759929597082,,,,,,
-366,4,201.772587204148,,,,,,
+366,4,201.772587204148,,,Russian defense contractor developing new heavy helicopter prototype,"Russian Helicopters Group will modernize the Mil Mi-26 helicopter for Russia’s Defense Ministry and is now developing a prototype of a new Mi-26T2V rotocraft, the company’s press office reported on Friday.
+""On the basis of the design documentation developed by the Moscow Mil Helicopter Enterprise, Rostvertol Company is carrying out work to develop a prototype of a new Mi-26T2V helicopter with the subsequent flight trials,"" the rotocraft manufacturer’s press office said.
+
+
+More:
+http://tass.com/defense/971768",macro,5
 367,1,202.78428752969,,,,,,
 368,5,204.415681669944,,,,,,
 369,3,207.754331593795,,,,,,
@@ -378,7 +443,10 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 377,4,228.538092386738,,,,,,
 378,4,230.136169680141,,,,,,
 379,5,230.994387160687,,,,,,
-380,4,232.666441067749,,,,,,
+380,4,232.666441067749,,,Trump potentially ready to meet with Putin at APEC summit (http://tass.com/world/972149),"US President Donald Trump is potentially ready for a meeting with Russian President Vladimir Putin on the sidelines of a summit conference of APEC forum in Vietnam, a senior White House official told reporters during a specialized media briefing.
+
+More:
+http://tass.com/world/972149",macro,5
 381,3,234.16771542992,,,,,,
 382,5,238.410671677682,,,,,,
 383,1,240.72223649655,,,,,,
@@ -388,7 +456,7 @@ id,Metronome,Adj Close,Survey,Disturbance,NewsTitle,NewsDetails,NewsCategory,New
 387,4,249.627520221727,,,,,,
 388,4,250.52190694276,,,,,,
 389,2,250.952498306169,,,,,,
-390,5,254.082771900929,,,,,,
+390,5,254.082771900929,,,Russia's Trade With China Up 22% (Source : themoscowtimes.com/),-,macro,5
 391,2,255.678962870399,risks,,,,,
 392,4,256.205353020302,,,,,,
 393,3,257.784576339715,,,,,,

@@ -9,7 +9,7 @@
       </tr>-->
       <tr>
         <th>Ranking</th>
-        <td>{{$store.state.player.ranking}} <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" style="color:red"></span></td>
+        <td>{{$store.getters.playerRanking}} <span class="glyphicon" :class="{'glyphicon-triangle-bottom': $store.getters.playerRankingChg == 'down' , 'glyphicon-triangle-top': $store.getters.playerRankingChg == 'up', 'glyphicon glyphicon-minus': $store.getters.playerRankingChg == 'uc' || $store.getters.playerRankingChg == '-' }" aria-hidden="true" :style="{color: $store.getters.playerRankingChg == 'up' ? 'green' : 'red'}"></span></td>
       </tr>
       <tr>
         <th>Shares</th>
@@ -29,7 +29,7 @@
     </tr>
     <tr>
       <th>Profit & Loss</th>
-      <td>{{ $store.getters.calc_pnl | flexCurrency('CHF ', 2, ".", "'")}}</td>
+      <td :style="{'color' : $store.getters.calc_pnl >= 0 ? 'green' : 'red'}">{{ $store.getters.calc_pnl | flexCurrency('CHF ', 2, ".", "'")}}</td>
     </tr>
 
     <!--<tr>

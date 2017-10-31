@@ -35,6 +35,8 @@ socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
 
+players = {}
+
 
 # https://fangpenlin.com/posts/2012/08/26/good-logging-practice-in-python/
 import logging
@@ -56,10 +58,11 @@ def background_thread():
     news_timeout = df['NewsTimeout'].tolist()
 
     while True:
+
         for idx in range(len(prices)):
             socketio.sleep( times[idx] )
             #number = random.randint(1,101)
-            socket_reponse = {'number': round( prices[idx] / (round( prices[0],2) / 100.0), 2) }
+            socket_reponse = {'idx': idx, 'number': round( prices[idx] / (round( prices[0],2) / 100.0), 2) }
 
             if surveys[idx] != -1:
                 logger.info('Found survey in timeserie: ' + json.dumps(surveys[idx]) )
@@ -74,6 +77,19 @@ def background_thread():
                 'category': new_category[idx],
                 'timeout': news_timeout[idx]
                 }
+
+            scoreboard = {}
+            for player in players:
+                scoreboard[player] = players[player]['shares']
+
+            sorted_score = []
+            for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
+                if value != 0:
+                    sorted_score.append(key)
+
+            sorted_score = sorted_score [::-1]
+            if len(sorted_score) > 0:
+                socket_reponse['scoreboard'] = sorted_score
 
             logging.info("emit price update: " + json.dumps(socket_reponse) )
             socketio.emit('my_response',
@@ -99,9 +115,15 @@ def connect():
     content = request.json
 
     data = {}
+    data['server'] = {
+        'datetime': server_time()
+    }
+
     data['player'] = {
         'name': content['login'],
         'ranking': '-',
+        'rankingPrev': '-',
+        'rankingChg': '-',
         'omsOption': False,
         'textTrader': False
     }
@@ -209,11 +231,49 @@ def test_connect():
             thread = socketio.start_background_task(target=background_thread)
     emit('my_connection', {'data': 'Connected'})
 
+@socketio.on('score', namespace='/test')
+def update_score(score):
+    global players
+    #logger.info('update score: ' + json.dumps(score) )
+
+    if 'player' in score:
+        if score['player'] in players:
+            pass
+        else:
+            players[ score['player'] ] = {
+                'player': score['player'],
+                'game': score['player']
+            }
+
+        players[ score['player'] ]['timestamp'] = datetime.datetime.now()
+        if 'shares' in score:
+            players[ score['player'] ]['shares'] = score['shares']
+        else:
+            players[ score['player'] ]['shares'] = 0
+        if 'pnl' in score:
+            players[ score['player'] ]['pnl'] = score['pnl']
+        else:
+            players[ score['player'] ]['pnl'] = 0
+        if 'cash' in score:
+            players[ score['player'] ]['cash'] = score['cash']
+        else:
+            players[ score['player'] ]['cash'] = 0
+
+    # wash old
+    need_to_del_players = []
+    for player in players:
+        if players[player]['timestamp'] < datetime.datetime.now() - datetime.timedelta(seconds=10):
+            need_to_del_players.append(player)
+    if len(need_to_del_players) > 0:
+        for player in need_to_del_players:
+            del players[player]
+
+    logger.info('players: ' + str(len(players)) )
 
 
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
-    logger.info('Client disconnected:' + request.sid)
+    logger.info('Client disconnected: ' + request.sid)
 
 
 if __name__ == '__main__':

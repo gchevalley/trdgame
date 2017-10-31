@@ -32,6 +32,9 @@ export const store = new Vuex.Store({
     news: [],
 
     player: {
+      ranking: '-',
+      rankingPrev: '-',
+      rankingChg: '-',
     },
 
     game: {
@@ -56,6 +59,15 @@ export const store = new Vuex.Store({
   getters: {
     gameId: state => {
       return state.game.id;
+    },
+    playerId: state => {
+      return state.player.name;
+    },
+    playerRanking:  state => {
+      return state.player.ranking;
+    },
+    playerRankingChg: state => {
+      return state.player.rankingChg;
     },
     orderId: state => {
       return state.countOrder;
@@ -179,6 +191,22 @@ export const store = new Vuex.Store({
 
     login_player: (state, payLoad) => {
       state.player = payLoad;
+    },
+
+    update_playerRanking: (state, payLoad) => {
+      if (state.player.ranking != '-' && payLoad != '-') {
+        if (payLoad < state.player.ranking) {
+          state.player.rankingChg = 'up';
+        } else if (payLoad > state.player.ranking) {
+          state.player.rankingChg = 'down';
+        } else {
+          state.player.rankingChg = 'uc';
+        }
+      } else {
+        state.player.rankingChg = '-';
+      }
+      state.player.rankingPrev = state.player.ranking;
+      state.player.ranking = payLoad;
     },
 
     login_game: (state, payLoad) => {
@@ -406,12 +434,11 @@ export const store = new Vuex.Store({
           order.exectimestamp = moment().format("HH:mm:ss");
 
           Vue.http.post(location.protocol + '//' + document.domain + ':' + '5000/newexecution', order).then(response => {
-            //console.log(response.data);
             order.execid = response.data.execid;
           }, error => {
             console.log(response);
           });
-          console.log(order);
+          //console.log(order);
           context.commit( 'insertNewExec', order );
           context.commit( 'removeOrder', order );
         } else if ( (order.ordertype == 'LMT' && order.side == 'buy' && order.orderprice >= newPrice) || (order.ordertype == 'LMT' && order.side == 'sell' && order.orderprice <= newPrice) ) {
@@ -432,47 +459,59 @@ export const store = new Vuex.Store({
         }
 
       });
-      /*
-      Vue.http.post(location.protocol + '//' + document.domain + ':' + '5000/neworder', {id: 4}).then(response => {
-      console.log(response);
-    }, error => {
-    console.log(response);
-  });
-  */
-  if (context.getters.get_cash < 0) {
-    alert("No cash -> game over");
-    context.commit('initGame');
+
+      if (context.getters.get_cash < 0) {
+        //alert("No cash -> game over");
+        //context.commit('initGame');
+      }
+
+      if (!context.getters.check_short) {
+        //alert("Too short-> game over");
+        //context.commit('initGame');
+      }
+
+      if ( message.hasOwnProperty('survey') ) {
+        var newSurvey = {
+          completed: false,
+          canClose: false,
+          name: message.survey,
+          submittedContent: {},
+          response: {},
+        };
+        context.commit( 'insertNewSurvey', newSurvey );
+      }
+
+      if ( message.hasOwnProperty('idx') ) {
+        if (message.idx > 10) {
+          if ( message.hasOwnProperty('scoreboard') ) {
+            if (message.scoreboard.indexOf(context.getters.playerId) != -1) {
+              context.commit( 'update_playerRanking', message.scoreboard.indexOf(context.getters.playerId) + 1);
+            } else {
+              context.commit( 'update_playerRanking', '-');
+            }
+          }
+        }
+      }
+
+      if (message.hasOwnProperty('disturbance') ) {
+        //console.log("disturbance from last price update: " + message.disturbance)
+        context.commit( 'activate_disturbance', message.disturbance )
+      }
+      context.commit('updateDisturbancesTimer');
+
+      if (message.hasOwnProperty('news') ) {
+        context.commit( 'inject_news', message.news )
+      }
+      context.commit('updateNewsTimer');
+
+      (new Vue()).$socket.emit('score', {player: context.getters.playerId,
+        game: context.getters.gameId,
+        shares: context.getters.get_shares,
+        cash: context.getters.get_cash,
+        pnl: context.getters.calc_pnl,
+      });
+
+      context.commit('insertNewPriceInMarket', newPrice);
+    },
   }
-
-  if (!context.getters.check_short) {
-    alert("Too short-> game over");
-    context.commit('initGame');
-  }
-
-  if ( message.hasOwnProperty('survey') ) {
-    var newSurvey = {
-      completed: false,
-      canClose: false,
-      name: message.survey,
-      submittedContent: {},
-      response: {},
-    };
-    context.commit( 'insertNewSurvey', newSurvey );
-  }
-
-  if (message.hasOwnProperty('disturbance') ) {
-    //console.log("disturbance from last price update: " + message.disturbance)
-    context.commit( 'activate_disturbance', message.disturbance )
-  }
-  context.commit('updateDisturbancesTimer');
-
-  if (message.hasOwnProperty('news') ) {
-    context.commit( 'inject_news', message.news )
-  }
-  context.commit('updateNewsTimer');
-
-
-  context.commit('insertNewPriceInMarket', newPrice);
-},
-}
 });
