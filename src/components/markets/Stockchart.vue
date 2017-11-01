@@ -82,7 +82,7 @@ export default {
 
   methods: {
     newQuickOrderShares(side, qty) {
-      if ( ( side == 'buy' && this.$store.getters.get_cash > 0 && qty <= (this.$store.getters.get_qtyLimitOrder - this.$store.getters.get_pendingQtyMktOrders) ) || ( side == 'sell' && this.$store.getters.check_short && qty <= (this.$store.getters.get_qtyLimitOrder - this.$store.getters.get_pendingQtyMktOrders) )  ) {
+      if ( ( side == 'buy' && this.$store.getters.get_cash > 0 && qty <= (this.$store.getters.get_qtyLimitOrder - this.$store.getters.get_pendingQtyMktOrders) ) || ( side == 'sell' && this.$store.getters.check_short && Math.abs(qty) <= (this.$store.getters.get_qtyLimitOrder - this.$store.getters.get_pendingQtyMktOrders) )  ) {
         this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: side, qty: qty, orderprice: '' } )
       }
     },
