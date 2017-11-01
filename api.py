@@ -90,6 +90,7 @@ def background_thread():
             sorted_score = sorted_score [::-1]
             if len(sorted_score) > 0:
                 socket_reponse['scoreboard'] = sorted_score
+                socket_reponse['numberPlayers'] = len(sorted_score)
 
             logging.info("emit price update: " + json.dumps(socket_reponse) )
             socketio.emit('my_response',
@@ -139,8 +140,10 @@ def connect():
 
     data['game'] = {
         'currentRound': 0,
+        'numberPlayers': 1,
         'gameOver': False,
         'limitShortShares': -20000,
+        'qtyLimitOrder': 10000,
     }
 
     data['pendingOrders'] = []

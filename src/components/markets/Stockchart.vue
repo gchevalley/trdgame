@@ -13,15 +13,16 @@
       ref="stockchart"
       :listener="chartEvent">
     </vue-chartist>
-
-    <p>Quick
-      <div class="col-md-6">
-      <button v-for="quick in quickOrders" type="button" class="btn btn-sm btn-info" @click="newQuickOrderShares('buy', quick)">+{{quick}}</button>
+    <div v-if="$store.getters.playerRankingSpectrum>=0.75">
+      <p>Quick
+        <div class="col-md-6">
+          <button v-for="quick in quickOrders" type="button" class="btn btn-sm btn-info" :class="{disabled: $store.getters.get_cash < 0 || quick > ($store.getters.get_qtyLimitOrder - $store.getters.get_pendingQtyMktOrders)}" @click="newQuickOrderShares('buy', quick)">+{{quick}}</button>
+        </div>
+        <div class="col-md-6">
+          <button v-for="quick in quickOrders" type="button" class="btn btn-sm btn-danger" :class="{disabled: !$store.getters.check_short || quick > ($store.getters.get_qtyLimitOrder - $store.getters.get_pendingQtyMktOrders)}" @click="newQuickOrderShares('sell', -quick)">-{{quick}}</button>
+        </div>
+      </p>
     </div>
-    <div class="col-md-6">
-      <button v-for="quick in quickOrders" type="button" class="btn btn-sm btn-danger" @click="newQuickOrderShares('sell', -quick)">-{{quick}}</button>
-    </div>
-    </p>
   </div>
 
 </div>

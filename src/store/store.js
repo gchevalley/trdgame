@@ -38,7 +38,8 @@ export const store = new Vuex.Store({
     },
 
     game: {
-      limitShortShares: -20000
+      limitShortShares: -20000,
+      numberPlayers: 1,
     },
 
     stockprice: [],
@@ -66,6 +67,13 @@ export const store = new Vuex.Store({
     playerRanking:  state => {
       return state.player.ranking;
     },
+    playerRankingSpectrum: state => {
+      if (state.player.ranking != '-') {
+        return state.player.ranking / state.game.numberPlayers;
+      } else {
+        return 0;
+      }
+    },
     playerRankingChg: state => {
       return state.player.rankingChg;
     },
@@ -83,6 +91,25 @@ export const store = new Vuex.Store({
     },
     stockprices: state => {
       return state.stockprice;
+    },
+    get_pendingQty: state => {
+      var qty_shares = 0;
+      state.pendingOrders.forEach(function(order) {
+        qty_shares += Math.abs(order.qty);
+      });
+      return qty_shares;
+    },
+    get_pendingQtyMktOrders: state => {
+      var qty_shares = 0;
+      state.pendingOrders.forEach(function(order) {
+        if (order.ordertype == "MKT") {
+          qty_shares += Math.abs(order.qty);
+        }
+      });
+      return qty_shares;
+    },
+    get_qtyLimitOrder: state => {
+      return state.game.qtyLimitOrder;
     },
     get_cash: state => {
       return state.portfolio.amountCash;
@@ -207,6 +234,16 @@ export const store = new Vuex.Store({
       }
       state.player.rankingPrev = state.player.ranking;
       state.player.ranking = payLoad;
+    },
+
+    update_gameNumberPlayers: (state, payLoad) => {
+      if (payLoad != 0) {
+        state.game.numberPlayers = payLoad;
+      }
+
+      if (state.game.numberPlayers == 0) {
+        state.game.numberPlayers = 1; // avoid div0
+      }
     },
 
     login_game: (state, payLoad) => {
@@ -486,6 +523,11 @@ export const store = new Vuex.Store({
           if ( message.hasOwnProperty('scoreboard') ) {
             if (message.scoreboard.indexOf(context.getters.playerId) != -1) {
               context.commit( 'update_playerRanking', message.scoreboard.indexOf(context.getters.playerId) + 1);
+              if (message.hasOwnProperty('numberPlayers') ) {
+                if ( message.numberPlayers != 0) {
+                  context.commit('update_gameNumberPlayers', message.numberPlayers);
+                }
+              }
             } else {
               context.commit( 'update_playerRanking', '-');
             }

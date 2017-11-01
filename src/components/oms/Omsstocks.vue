@@ -34,7 +34,7 @@
           <label class="control-label col-sm-4" for="quantity">Quantity</label>
           <div class="col-sm-6">
             <input type="number" v-validate="'required|max_value:10000'" class="form-control" :class="{'input': true, 'is-danger': errors.has('quantity') }" id="quantity" name="quantity" placeholder="Enter quantity" v-model.number="sharesOrderQty">
-            <span v-show="sharesOrderQty>10000" class="help is-danger">Quantity is capted to 10'000 for liquidity reasons</span>
+            <span v-show="sharesOrderQty>10000 || sharesOrderQty > ($store.getters.get_qtyLimitOrder - $store.getters.get_pendingQtyMktOrders)" class="help is-danger">Quantity is capted to 10'000 for liquidity reasons</span>
           </div>
         </div>
 

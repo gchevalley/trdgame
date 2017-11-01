@@ -5,6 +5,10 @@
     <div class="container">
 
       <div class="row">
+          <app-news></app-news>
+      </div>
+
+      <div class="row">
         <app-portfolio></app-portfolio>
         <app-stockchart></app-stockchart>
       </div>
@@ -14,11 +18,11 @@
         <app-orderbook></app-orderbook>
       </div>
 
-      <div class="row">
+      <!--<div class="row">
         <div class="col-md-4">
         </div>
         <app-news></app-news>
-      </div>
+      </div>-->
 
 
     </div>
