@@ -54,8 +54,8 @@
 
         <div class="form-group">
           <div class="col-sm-offset-4 col-sm-10">
-            <button type="button" class="btn btn-info btn-lg" :class="{disabled: $store.getters.get_cash < 0}" @click="newBuyOrderShares">Buy</button>
-            <button type="button" class="btn btn-danger btn-lg" :class="{disabled: !$store.getters.check_short}" @click="newSellOrderShares">Sell</button>
+            <button type="button" class="btn btn-info btn-lg" :class="{disabled: $store.getters.get_cash < 0 || sharesOrderQty > ($store.getters.get_qtyLimitOrder - $store.getters.get_pendingQtyMktOrders)}" @click="newBuyOrderShares">Buy</button>
+            <button type="button" class="btn btn-danger btn-lg" :class="{disabled: !$store.getters.check_short || sharesOrderQty > ($store.getters.get_qtyLimitOrder - $store.getters.get_pendingQtyMktOrders) }" @click="newSellOrderShares">Sell</button>
           </div>
         </div>
       </form>
@@ -83,10 +83,10 @@ export default {
     },
 
     newBuyOrderShares() {
-      if (this.sharesOrderQty != '' && (this.sharesLimitPrice == '' || this.sharesLimitPrice > 0 ) ) {
+      if (this.$store.getters.get_cash > 0 && this.sharesOrderQty != '' && (this.sharesLimitPrice == '' || this.sharesLimitPrice > 0 && Math.abs(this.sharesOrderQty) <= (this.$store.getters.get_qtyLimitOrder - this.$store.getters.get_pendingQtyMktOrders) ) ) {
         this.$validator.validateAll().then((result) => {
           if (result) {
-            this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'buy', qty: Math.abs(this.sharesOrderQty), orderprice: this.sharesLimitPrice } )
+            this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'buy', qty: Math.abs(this.sharesOrderQty), orderprice: this.sharesLimitPrice } );
             this.cleanOms();
             return;
           }
@@ -96,10 +96,10 @@ export default {
     },
 
     newSellOrderShares() {
-      if (this.sharesOrderQty != '' && (this.sharesLimitPrice == '' || this.sharesLimitPrice > 0 ) ) {
+      if (this.$store.getters.check_short && this.sharesOrderQty != '' && (this.sharesLimitPrice == '' || this.sharesLimitPrice > 0 && Math.abs(this.sharesOrderQty) <= (this.$store.getters.get_qtyLimitOrder - this.$store.getters.get_pendingQtyMktOrders) ) ) {
         this.$validator.validateAll().then((result) => {
           if (result) {
-            this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'sell', qty: -Math.abs(this.sharesOrderQty), orderprice: this.sharesLimitPrice } )
+            this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'sell', qty: -Math.abs(this.sharesOrderQty), orderprice: this.sharesLimitPrice } );
             this.cleanOms();
             return;
           }

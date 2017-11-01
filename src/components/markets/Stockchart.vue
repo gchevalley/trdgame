@@ -13,7 +13,7 @@
       ref="stockchart"
       :listener="chartEvent">
     </vue-chartist>
-    <div v-if="$store.getters.playerRankingSpectrum>=0.75">
+    <div v-if="!$store.getters.status_disturbances.softwareupgrade.status && $store.getters.playerRankingSpectrum>=0.75">
       <p>Quick
         <div class="col-md-6">
           <button v-for="quick in quickOrders" type="button" class="btn btn-sm btn-info" :class="{disabled: $store.getters.get_cash < 0 || quick > ($store.getters.get_qtyLimitOrder - $store.getters.get_pendingQtyMktOrders)}" @click="newQuickOrderShares('buy', quick)">+{{quick}}</button>
@@ -82,7 +82,9 @@ export default {
 
   methods: {
     newQuickOrderShares(side, qty) {
-      this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: side, qty: qty, orderprice: '' } )
+      if ( ( side == 'buy' && this.$store.getters.get_cash > 0 && qty <= (this.$store.getters.get_qtyLimitOrder - this.$store.getters.get_pendingQtyMktOrders) ) || ( side == 'sell' && this.$store.getters.check_short && qty <= (this.$store.getters.get_qtyLimitOrder - this.$store.getters.get_pendingQtyMktOrders) )  ) {
+        this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: side, qty: qty, orderprice: '' } )
+      }
     },
   },
 
