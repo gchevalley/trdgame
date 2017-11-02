@@ -197,6 +197,8 @@ def check_survey(survey):
     elif survey == 'derivatives':
         cSurvey['response'] = check_survey_derivatives(request.json)
 
+    cSurvey['surveyid'] = str( mongo.db.surveys.insert_one( copy.deepcopy(cSurvey) ).inserted_id )
+    
     return jsonify(cSurvey)
 
 def check_survey_risks(response_json):

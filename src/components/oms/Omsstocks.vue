@@ -21,8 +21,8 @@
 
         <div class="form-group">
           <div class="col-sm-offset-4 col-sm-10">
-            <button type="button" class="btn btn-lg" :class="{disabled: !$store.getters.check_short}" @click="newSellOrderShares">продавать</button>
-            <button type="button" class="btn btn-lg" :class="{disabled: $store.getters.get_cash < 0}" @click="newBuyOrderShares">купить</button>
+            <button type="button" class="btn btn-default btn-lg" :class="{disabled: !$store.getters.check_short}" @click="newSellOrderShares">продавать</button>
+            <button type="button" class="btn btn-default btn-lg" :class="{disabled: $store.getters.get_cash < 0}" @click="newBuyOrderShares">купить</button>
           </div>
         </div>
       </form>
