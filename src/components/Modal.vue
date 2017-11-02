@@ -4,11 +4,11 @@
       <div class="modal-wrapper">
         <div class="modal-container">
 
-          <!--<div class="modal-header">
+          <div class="modal-header">
             <slot name="header">
-              default header
+              <!--default header-->
             </slot>
-          </div>-->
+          </div>
 
           <div class="modal-body">
             <slot name="body">
@@ -17,14 +17,14 @@
             </slot>
           </div>
 
-          <!--<div class="modal-footer">
+          <div class="modal-footer">
             <slot name="footer">
-              default footer
+              <!--default footer
               <button class="modal-default-button" @click="$emit('close')">
                 OK
-              </button>
+              </button>-->
             </slot>
-          </div>-->
+          </div>
         </div>
       </div>
     </div>
@@ -74,7 +74,7 @@ export default {
 }
 
 .modal-container {
-  width: 95%;
+  width: 98%;
   /* height: 95%; */
   margin: 0px auto;
   padding: 20px 30px;

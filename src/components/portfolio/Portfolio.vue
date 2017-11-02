@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-4">
+  <div class="col-md-4 hidden-xs">
     <h3>Recap</h3>
     <table class="table">
       <tbody>

@@ -42,6 +42,12 @@ import Orderbook from './oms/Orderbook.vue';
 
 import News from './news/News.vue';
 
+window.onbeforeunload = function(e) {
+  console.log('prevent refresh');
+  e.preventDefault();
+  return false;
+}
+
 export default {
 
   data () {

@@ -54,7 +54,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{{$store.state.portfolio.amountCash/1000000 | flexCurrency('CHF ', 3, ".", "'")}}m</td>
+                    <td>{{$store.state.portfolio.amountCash/1000000 | flexCurrency('', 3, ".", "'")}}m</td>
                   </tr>
                 </tbody>
               </table>
@@ -88,7 +88,6 @@
 $(window).scroll(function() {
   if ($(document).scrollTop() > 10) {
     $('nav').addClass('shrink');
-    console.log('scroll-shrink');
   } else {
     $('nav').removeClass('shrink');
   }
@@ -189,7 +188,7 @@ body {
   padding-top: 80px;
 }
 nav .navbar-brand {
-  font-size: 30px;
+  font-size: 20px;
 }
 nav .navbar-toggle {
   margin: 13px 15px 13px 0;
@@ -200,9 +199,9 @@ nav .navbar thead {
 }
 
 nav a {
-  font-size: 18px;
-  padding-bottom: 20px !important;
-  padding-top: 20px !important;
+  font-size: 20px;
+  padding-bottom: 15px !important;
+  padding-top: 15px !important;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
@@ -219,7 +218,7 @@ nav.navbar.shrink thead {
 
 nav.navbar.shrink a {
   font-size: 15px;
-  padding-bottom: 20px !important;
+  padding-bottom: 10px !important;
   padding-top: 10px !important;
 }
 nav.navbar.shrink .navbar-toggle {
