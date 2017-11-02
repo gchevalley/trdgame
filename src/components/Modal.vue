@@ -63,7 +63,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, .9);
   display: table;
   transition: opacity .3s ease;
 }
@@ -75,7 +75,7 @@ export default {
 
 .modal-container {
   width: 95%;
-  height: 95%;
+  /* height: 95%; */
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -83,6 +83,8 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
+  overflow-y: auto;
+  max-height: 95%;
 }
 
 .modal-header h3 {
