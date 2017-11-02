@@ -198,7 +198,7 @@ def check_survey(survey):
         cSurvey['response'] = check_survey_derivatives(request.json)
 
     cSurvey['surveyid'] = str( mongo.db.surveys.insert_one( copy.deepcopy(cSurvey) ).inserted_id )
-    
+
     return jsonify(cSurvey)
 
 def check_survey_risks(response_json):
@@ -230,19 +230,23 @@ def check_survey_derivatives(response_json):
     dictResponse = {}
 
     dictResponse['message'] = ''
-    dictResponse['adjustCash'] = -100000
+    if response_json['question2'] = 'yes':
+        dictResponse['adjustCash'] = -100000
+
+        count_error = 0
+        for question, answer in response_json.items():
+            if question[:8] == 'question':
+                if question != 'question2':
+                    if answer != 'response':
+                        count_error += 1
+
+        logger.info('survey derivatives: ' + str(count_error))
+        if count_error <= 1:
+            dictResponse['adjustCash'] += 1000000
+
+    else:
+        dictResponse['adjustCash'] = 0
     dictResponse['adjustShares'] = 0
-
-    count_error = 0
-    for question, answer in response_json.items():
-        if question[:8] == 'question':
-            if question != 'question2':
-                if answer != 'response':
-                    count_error += 1
-
-    logger.info('survey derivatives: ' + str(count_error))
-    if count_error <= 1:
-        dictResponse['adjustCash'] += 1000000
 
     return dictResponse
 

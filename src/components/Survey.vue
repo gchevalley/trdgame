@@ -120,7 +120,9 @@ export default {
               title: "A call option is quoted at a premium of $25. the strike is $180 and spot $200. The option was purchased at $10. The best way to exit this option is :"
             }
           ],
-          name: "page3"
+          name: "page3",
+          visible: false,
+          visibleIf: "{question2} = 'yes'"
         },
         {
           elements: [
@@ -148,7 +150,9 @@ export default {
               title: "What could be the maximum profit for a buyer of options contract ?"
             }
           ],
-          name: "page4"
+          name: "page4",
+          visible: false,
+          visibleIf: "{question2} = 'yes'"
         },
         {
           elements: [
@@ -176,7 +180,9 @@ export default {
               title: "a call option is said to be in-the-money if:"
             }
           ],
-          name: "page5"
+          name: "page5",
+          visible: false,
+          visibleIf: "{question2} = 'yes'"
         },
         {
           elements: [
@@ -204,7 +210,9 @@ export default {
               title: "Fair value of futures contract is:"
             }
           ],
-          name: "page6"
+          name: "page6",
+          visible: false,
+          visibleIf: "{question2} = 'yes'"
         },
         {
           elements: [
@@ -232,7 +240,9 @@ export default {
               title: "BABA spot is $290, strike $280, premium $24. At what spot price will the above call option break even:"
             }
           ],
-          name: "page7"
+          name: "page7",
+          visible: false,
+          visibleIf: "{question2} = 'yes'"
         },
         {
           elements: [
@@ -260,7 +270,9 @@ export default {
               title: "The intrinsic value of a call option is:"
             }
           ],
-          name: "page8"
+          name: "page8",
+          visible: false,
+          visibleIf: "{question2} = 'yes'"
         },
         {
           elements: [
@@ -288,7 +300,9 @@ export default {
               title: "A local jeweler agrees to buy 3kg of gold from whole sale gold trader after 2 months. What type of contract we are reffering here to ?"
             }
           ],
-          name: "page9"
+          name: "page9",
+          visible: false,
+          visibleIf: "{question2} = 'yes'"
         },
         {
           elements: [
@@ -308,7 +322,9 @@ export default {
               title: "An open interest is the total number of contract traded in a month for an underlying asset ?"
             }
           ],
-          name: "page10"
+          name: "page10",
+          visible: false,
+          visibleIf: "{question2} = 'yes'"
         },
         {
           elements: [
@@ -336,7 +352,9 @@ export default {
               title: "Margins in futures trading are to be paid by ___"
             }
           ],
-          name: "page11"
+          name: "page11",
+          visible: false,
+          visibleIf: "{question2} = 'yes'"
         },
         {
           elements: [
@@ -364,7 +382,9 @@ export default {
               title: "On 1st April EURO STOXX Automobiles & Parts Futures price is €140 and spot price is €138. Spot closed on the expiry date at €142. What should be the future price on expiry date ?"
             }
           ],
-          name: "page12"
+          name: "page12",
+          visible: false,
+          visibleIf: "{question2} = 'yes'"
         },
         {
           elements: [
@@ -400,7 +420,9 @@ export default {
               title: "If you have sold a E-mini S&P 500 Futures contract (contract multiplier 50) at 3100 and bought it back at 3300, what is your gain/loss ?"
             }
           ],
-          name: "page13"
+          name: "page13",
+          visible: false,
+          visibleIf: "{question2} = 'yes'"
         },
         {
           elements: [
@@ -428,10 +450,9 @@ export default {
               title: "The beta of Nestle (swiss company) is 0.8. Assuming you have a position of CHF 2'000'000, which of the following gives a complete delta hedge ?"
             }
           ],
-          name: "page14"
-        },
-        {
-          name: "page15"
+          name: "page14",
+          visible: false,
+          visibleIf: "{question2} = 'yes'"
         }
       ],
       showNavigationButtons: false
