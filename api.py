@@ -230,7 +230,7 @@ def check_survey_derivatives(response_json):
     dictResponse = {}
 
     dictResponse['message'] = ''
-    if response_json['question2'] = 'yes':
+    if response_json['question2'] == 'yes':
         dictResponse['adjustCash'] = -100000
 
         count_error = 0
