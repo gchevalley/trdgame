@@ -1,17 +1,18 @@
 <template>
   <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
+    <div class="container-fluid">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-        </button>
+        </button>-->
         <a class="navbar-brand" href="#">Trading</a>
 
-        <ul v-if="$store.state.connected" class="nav navbar-nav pull-right">
+<div class="navbar-header-menu">
+        <ul v-if="$store.state.connected" class="nav navbar-nav">
           <li>
-            <a href="#">
+            <a class="" href="#">
               <table style="text-align:center;"><thead>
                 <tr>
                   <th>Ranking</th>
@@ -36,7 +37,7 @@
                 <tbody>
                   <tr>
                     <td>
-                      {{$store.state.portfolio.positions.shares | flexNumber(0, ".", "'")}} units
+                      {{$store.state.portfolio.positions.shares/1000 | flexNumber(1, ".", "'")}}k sh
                   </td>
                   </tr>
                 </tbody>
@@ -53,13 +54,13 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{{$store.state.portfolio.amountCash | flexCurrency('CHF ', 2, ".", "'")}}</td>
+                    <td>{{$store.state.portfolio.amountCash/1000000 | flexCurrency('CHF ', 3, ".", "'")}}m</td>
                   </tr>
                 </tbody>
               </table>
             </a>
           </li>
-          <li>
+          <!--<li>
             <a href="#">
               <table style="text-align:center;">
                 <thead>
@@ -74,8 +75,9 @@
                 </tbody>
               </table>
             </a>
-          </li>
+          </li>-->
         </ul>
+      </div>
       </div>
     </div>
   </nav>
@@ -116,6 +118,72 @@ export default {
 </script>
 
 <style>
+
+.navbar-header-menu {
+    float: left;
+}
+
+    .navbar-header-menu > .navbar-nav {
+        float: left;
+        margin: 0;
+    }
+
+        .navbar-header-menu > .navbar-nav > li {
+            float: left;
+        }
+
+            .navbar-header-menu > .navbar-nav > li > a {
+                padding-top: 15px;
+                padding-bottom: 15px;
+            }
+
+        .navbar-header-menu > .navbar-nav .open .dropdown-menu {
+            position: absolute;
+            float: left;
+            width: auto;
+            margin-top: 0;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border: 1px solid rgba(0,0,0,.15);
+            -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+            box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        }
+
+    .navbar-header-menu > .navbar-form {
+        float: left;
+        width: auto;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-right: 0;
+        margin-left: 0;
+        border: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
+        .navbar-header-menu > .navbar-form > .form-group {
+            display: inline-block;
+            margin-bottom: 0;
+            vertical-align: middle;
+        }
+
+    .navbar-header-menu > .navbar-left {
+        float: left;
+    }
+
+    .navbar-header-menu > .navbar-right {
+        float: right !important;
+    }
+
+    .navbar-header-menu > *.navbar-right:last-child {
+        margin-right: -15px !important;
+    }
+
+
+
+
+
+
 
 body {
   padding-top: 80px;
