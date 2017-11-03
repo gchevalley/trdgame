@@ -57,45 +57,45 @@ def background_thread():
     new_category = df['NewsCategory'].tolist()
     news_timeout = df['NewsTimeout'].tolist()
 
-    while True:
+    #while True:
 
-        for idx in range(len(prices)):
-            socketio.sleep( times[idx] )
-            #number = random.randint(1,101)
-            socket_reponse = {'idx': idx, 'number': round( prices[idx] / (round( prices[0],2) / 100.0), 2) }
+    for idx in range(len(prices)):
+        socketio.sleep( times[idx] )
+        #number = random.randint(1,101)
+        socket_reponse = {'idx': idx, 'number': round( prices[idx] / (round( prices[0],2) / 100.0), 2) }
 
-            if surveys[idx] != -1:
-                logger.info('Found survey in timeserie: ' + json.dumps(surveys[idx]) )
-                socket_reponse['survey'] = surveys[idx]
-            if disturbances[idx] != -1:
-                logger.info('Found disturbance in timeserie: ' + json.dumps(disturbances[idx]) )
-                socket_reponse['disturbance'] = disturbances[idx]
-            if news_title[idx] != -1:
-                logger.info('Found news in timeserie: ' + json.dumps(news_title[idx]) )
-                socket_reponse['news'] = {'title': news_title[idx],
-                'details': news_details[idx],
-                'category': new_category[idx],
-                'timeout': news_timeout[idx]
-                }
+        if surveys[idx] != -1:
+            logger.info('Found survey in timeserie: ' + json.dumps(surveys[idx]) )
+            socket_reponse['survey'] = surveys[idx]
+        if disturbances[idx] != -1:
+            logger.info('Found disturbance in timeserie: ' + json.dumps(disturbances[idx]) )
+            socket_reponse['disturbance'] = disturbances[idx]
+        if news_title[idx] != -1:
+            logger.info('Found news in timeserie: ' + json.dumps(news_title[idx]) )
+            socket_reponse['news'] = {'title': news_title[idx],
+            'details': news_details[idx],
+            'category': new_category[idx],
+            'timeout': news_timeout[idx]
+            }
 
-            scoreboard = {}
-            for player in players:
-                scoreboard[player] = players[player]['shares']
+        scoreboard = {}
+        for player in players:
+            scoreboard[player] = players[player]['shares']
 
-            sorted_score = []
-            for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
-                if value != 0:
-                    sorted_score.append(key)
+        sorted_score = []
+        for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
+            if value != 0:
+                sorted_score.append(key)
 
-            sorted_score = sorted_score [::-1]
-            if len(sorted_score) > 0:
-                socket_reponse['scoreboard'] = sorted_score
-                socket_reponse['numberPlayers'] = len(sorted_score)
+        sorted_score = sorted_score [::-1]
+        if len(sorted_score) > 0:
+            socket_reponse['scoreboard'] = sorted_score
+            socket_reponse['numberPlayers'] = len(sorted_score)
 
-            logging.info("emit price update: " + json.dumps(socket_reponse) )
-            socketio.emit('my_response',
-                          socket_reponse,
-                          namespace='/test')
+        logging.info("emit price update: " + json.dumps(socket_reponse) )
+        socketio.emit('my_response',
+                      socket_reponse,
+                      namespace='/test')
 
 @app.route('/time')
 def server_time():
@@ -109,6 +109,12 @@ def random_gen():
 @app.route('/')
 def spa():
     return render_template('index.html', async_mode=socketio.async_mode)
+
+@app.route('/reset', methods=['GET'])
+def reset_thread():
+    global thread
+    thread = None
+    return 'reset thread'
 
 @app.route('/connect', methods=['POST'])
 @cross_origin(origins='*')
@@ -310,4 +316,5 @@ def test_disconnect():
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', debug=True)
+    #socketio.run(app, host='0.0.0.0', debug=True)
+    socketio.run(app, host='0.0.0.0', debug=False)

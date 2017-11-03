@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-8">
     <div v-if="$store.getters.status_disturbances.marketdatafeed.status">
-      <h2 style="color:red;"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Market data feed issue <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></h2>
+      <h2 style="color:red;"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Market data feed issue</h2>
       <p>Trading is still up</p>
       <p>Don't hesitate to contact helpdesk</p>
     </div>

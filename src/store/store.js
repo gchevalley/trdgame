@@ -267,7 +267,7 @@ export const store = new Vuex.Store({
         if (disturbance.status == true) {
           disturbance.roundRemaining--;
           console.log(disturbance);
-          if (disturbance.roundRemaining == 0) {
+          if (disturbance.roundRemaining <= 0) {
             disturbance.status = false;
           }
         }
