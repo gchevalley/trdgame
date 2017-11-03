@@ -1,17 +1,17 @@
 <template>
-  <div class="col-md-4 hidden-xs">
-    <h3>Recap</h3>
+  <div class="col-md-4">
+    <h3 class="hidden-xs">Recap</h3>
     <table class="table">
       <tbody>
         <!--<tr>
         <th>Current Round</th>
         <td><span class="badge">{{$store.state.game.currentRound}}</span></td>
       </tr>-->
-      <tr>
+      <tr class="hidden-xs">
         <th>Ranking</th>
         <td>{{$store.getters.playerRanking}} <span class="glyphicon" :class="{'glyphicon-triangle-bottom': $store.getters.playerRankingChg == 'down' , 'glyphicon-triangle-top': $store.getters.playerRankingChg == 'up', 'glyphicon glyphicon-minus': $store.getters.playerRankingChg == 'uc' || $store.getters.playerRankingChg == '-' }" aria-hidden="true" :style="{color: $store.getters.playerRankingChg == 'up' ? 'green' : 'red'}"></span></td>
       </tr>
-      <tr>
+      <tr class="hidden-xs">
         <th>Shares</th>
         <td>
           {{$store.state.portfolio.positions.shares | flexNumber(0, ".", "'")}} units
@@ -23,7 +23,7 @@
         </div>
       </td>
     </tr>
-    <tr>
+    <tr class="hidden-xs">
       <th>Cash</th>
       <td>{{$store.state.portfolio.amountCash | flexCurrency('CHF ', 2, ".", "'")}}</td>
     </tr>

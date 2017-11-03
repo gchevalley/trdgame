@@ -332,8 +332,21 @@ export const store = new Vuex.Store({
     },
 
     insertNewSurvey: (state, payLoad) => {
-      state.surveys.push(payLoad);
+      var count_active_survey = 0;
+      state.surveys.forEach(function(survey) {
+        if (!survey.completed) {
+          count_active_survey++;
+          return;
+        }
+      });
+
+
+      if (count_active_survey == 0) {
+        state.surveys.push(payLoad);
       //state.showModal = true;
+    } else {
+      console.log("disable survey - already one activated");
+    }
     },
 
     disableModal: (state, payLoad) => {

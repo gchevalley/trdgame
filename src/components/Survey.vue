@@ -32,6 +32,7 @@ export default {
           name: "page1"
         }
       ],
+      showCompletedPage: false,
       showNavigationButtons: false
     };
 
@@ -42,7 +43,7 @@ export default {
           elements: [
             {
               type: "html",
-              html: "<h1>Derivative exam</h1>",
+              html: "<h1>Derivatives exam</h1><p>Just as a reminder, all finance students said in their resume they were derivatives specialists.</p>",
               name: "question1"
             },
             {
@@ -50,16 +51,16 @@ export default {
               choices: [
                 {
                   value: "yes",
-                  text: "Yes, cost CHF -100k possiblity to win up to CHF +2mln"
+                  text: "Yes, cost is CHF 100k with the possiblity to win up to CHF +1mln"
                 },
                 {
                   value: "no",
-                  text: "No, back to the trading plateform"
+                  text: "No, -> back to the trading platform"
                 }
               ],
               isRequired: true,
               name: "question2",
-              title: "Do you want to take part of it"
+              title: "Would you like to take part ?"
             }
           ],
           name: "page1"
@@ -455,6 +456,7 @@ export default {
           visibleIf: "{question2} = 'yes'"
         }
       ],
+      showCompletedPage: false,
       showNavigationButtons: false
     };
 
