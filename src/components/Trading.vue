@@ -48,10 +48,6 @@ window.onbeforeunload = function(e) {
   return false;
 }
 
-$("html").css({
-    "touch-action": "pan-down"
-})
-
 export default {
 
   data () {
