@@ -16,7 +16,7 @@ import copy
 
 app = Flask(__name__)
 
-app.config['MONGO_HOST'] = os.getenv('MONGO_HOST', 'localhost')
+app.config['MONGO_HOST'] = os.getenv('MONGO_HOST', 'localhost') # dev localhost, prod docker
 
 
 
@@ -57,12 +57,12 @@ def background_thread():
     new_category = df['NewsCategory'].tolist()
     news_timeout = df['NewsTimeout'].tolist()
 
-    #while True:
+    #while True: # infinite loop
 
     for idx in range(len(prices)):
         socketio.sleep( times[idx] )
         #number = random.randint(1,101)
-        socket_reponse = {'idx': idx, 'number': round( prices[idx] / (round( prices[0],2) / 100.0), 2) }
+        socket_reponse = {'tstimestamp': server_time(), 'idx': idx, 'number': round( prices[idx] / (round( prices[0],2) / 100.0), 2) }
 
         if surveys[idx] != -1:
             logger.info('Found survey in timeserie: ' + json.dumps(surveys[idx]) )
@@ -91,6 +91,8 @@ def background_thread():
         if len(sorted_score) > 0:
             socket_reponse['scoreboard'] = sorted_score
             socket_reponse['numberPlayers'] = len(sorted_score)
+
+        mongo.db.ts.insert_one( copy.deepcopy(socket_reponse) )
 
         logging.info("emit price update: " + json.dumps(socket_reponse) )
         socketio.emit('my_response',
@@ -316,5 +318,5 @@ def test_disconnect():
 
 
 if __name__ == '__main__':
-    #socketio.run(app, host='0.0.0.0', debug=True)
-    socketio.run(app, host='0.0.0.0', debug=False)
+    socketio.run(app, host='0.0.0.0', debug=True)
+    #socketio.run(app, host='0.0.0.0', debug=False)
