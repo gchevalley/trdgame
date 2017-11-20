@@ -12,6 +12,7 @@ import Login from './components/Login.vue';
 import Trading from './components/Trading.vue';
 
 
+/*
 $(document).ready(function() {
 	$('#fakebody').scroll(function() {
 		console.log("scroll", $('#fakebody').scrollTop());
@@ -21,6 +22,23 @@ $(document).ready(function() {
 			$('nav').removeClass('shrink');
 		}
 	});
+});
+*/
+
+$(document).ready(function(){
+  var scrollTop = 0;
+  $('#fakebody').scroll(function(){
+    scrollTop = $('#fakebody').scrollTop();
+     $('.counter').html(scrollTop);
+
+    if (scrollTop >= 100) {
+      $('#global-nav').addClass('scrolled-nav');
+    } else if (scrollTop < 100) {
+      $('#global-nav').removeClass('scrolled-nav');
+    }
+
+  });
+
 });
 
 export default {
@@ -41,6 +59,7 @@ export default {
 </script>
 
 <style>
+
 body {
     width: 100%;
     height: 100%;
@@ -49,7 +68,8 @@ body {
     top: -1px;
     z-index: 1;
     margin: 0;
-    padding: 0;
+    /*padding: 0;*/
+    padding-top: 150px;
     overflow-y: hidden;
 }
 #fakebody {

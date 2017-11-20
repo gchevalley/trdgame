@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Header from './Header.vue';
+import Header from './Headerstandalone.vue';
 
 import Modal from './Modal.vue';
 

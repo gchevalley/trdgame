@@ -57,47 +57,47 @@ def background_thread():
     new_category = df['NewsCategory'].tolist()
     news_timeout = df['NewsTimeout'].tolist()
 
-    #while True: # infinite loop
+    while True: # infinite loop
+        for idx in range(len(prices)):
+            socketio.sleep( times[idx] )
+            #number = random.randint(1,101)
+            socket_reponse = {'tstimestamp': server_time(), 'idx': idx, 'number': round( prices[idx] / (round( prices[0],2) / 100.0), 2) }
 
-    for idx in range(len(prices)):
-        socketio.sleep( times[idx] )
-        #number = random.randint(1,101)
-        socket_reponse = {'tstimestamp': server_time(), 'idx': idx, 'number': round( prices[idx] / (round( prices[0],2) / 100.0), 2) }
+            if surveys[idx] != -1:
+                logger.info('Found survey in timeserie: ' + json.dumps(surveys[idx]) )
+                socket_reponse['survey'] = surveys[idx]
+            if disturbances[idx] != -1:
+                logger.info('Found disturbance in timeserie: ' + json.dumps(disturbances[idx]) )
+                socket_reponse['disturbance'] = disturbances[idx]
+            if news_title[idx] != -1:
+                logger.info('Found news in timeserie: ' + json.dumps(news_title[idx]) )
+                socket_reponse['news'] = {'title': news_title[idx],
+                'details': news_details[idx],
+                'category': new_category[idx],
+                'timeout': news_timeout[idx]
+                }
 
-        if surveys[idx] != -1:
-            logger.info('Found survey in timeserie: ' + json.dumps(surveys[idx]) )
-            socket_reponse['survey'] = surveys[idx]
-        if disturbances[idx] != -1:
-            logger.info('Found disturbance in timeserie: ' + json.dumps(disturbances[idx]) )
-            socket_reponse['disturbance'] = disturbances[idx]
-        if news_title[idx] != -1:
-            logger.info('Found news in timeserie: ' + json.dumps(news_title[idx]) )
-            socket_reponse['news'] = {'title': news_title[idx],
-            'details': news_details[idx],
-            'category': new_category[idx],
-            'timeout': news_timeout[idx]
-            }
+            scoreboard = {}
+            for player in players:
+                scoreboard[player] = players[player]['shares']
 
-        scoreboard = {}
-        for player in players:
-            scoreboard[player] = players[player]['shares']
+            sorted_score = []
+            for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
+                if value != 0:
+                    sorted_score.append(key)
 
-        sorted_score = []
-        for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
-            if value != 0:
-                sorted_score.append(key)
+            sorted_score = sorted_score [::-1]
+            if len(sorted_score) > 0:
+                socket_reponse['scoreboard'] = sorted_score
+                socket_reponse['numberPlayers'] = len(sorted_score)
 
-        sorted_score = sorted_score [::-1]
-        if len(sorted_score) > 0:
-            socket_reponse['scoreboard'] = sorted_score
-            socket_reponse['numberPlayers'] = len(sorted_score)
+            with app.app_context():
+                mongo.db.ts.insert_one( copy.deepcopy(socket_reponse) )
 
-        mongo.db.ts.insert_one( copy.deepcopy(socket_reponse) )
-
-        logging.info("emit price update: " + json.dumps(socket_reponse) )
-        socketio.emit('my_response',
-                      socket_reponse,
-                      namespace='/test')
+            logging.info("emit price update: " + json.dumps(socket_reponse) )
+            socketio.emit('my_response',
+                          socket_reponse,
+                          namespace='/test')
 
 @app.route('/time')
 def server_time():

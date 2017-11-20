@@ -14,7 +14,7 @@ import VueSocketio from 'vue-socket.io';
 import socketio from 'socket.io-client'
 var namespace = '/test';
 //Vue.use(VueSocketio, socketio(location.protocol + '//' + document.domain + ':' + location.port + namespace), store);
-Vue.use(VueSocketio, socketio(location.protocol + '//' + document.domain + ':' + '5000' + namespace), store);
+Vue.use(VueSocketio, socketio(location.protocol + '//' + document.domain + ':' + (location.port == '8080' ? '5000': location.port) + namespace), store);
 
 import moment from 'moment';
 Vue.prototype.$moment = moment;

@@ -266,7 +266,6 @@ export const store = new Vuex.Store({
       for (let [name, disturbance] of Object.entries(state.disturbances)) {
         if (disturbance.status == true) {
           disturbance.roundRemaining--;
-          console.log(disturbance);
           if (disturbance.roundRemaining <= 0) {
             disturbance.status = false;
           }

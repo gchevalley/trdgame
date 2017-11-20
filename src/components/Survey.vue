@@ -20,7 +20,8 @@ export default {
             {
               type: "html",
               html: "<h1>Market Risk assesment form</h1><p>Please be advised that one should always know the exact number of shares in their portfolio.</p><p>Thus, any mis-estimation will result in substential penalties as described below:</p><ul><li><strong>Underestimation</strong>: Any underestimation will decrease the number of shares one actually own to the figure they have announced in the risk form. Moreover, a 10% cash penalty will be applied.</li><li><strong>Overestimation</strong>: Any overestimation will result in a 10% cash penalty.</li></ul>",
-              name: "question1"
+              name: "question1",
+              title: "question1"
             },
             {
               type: "text",
@@ -44,7 +45,8 @@ export default {
             {
               type: "html",
               html: "<h1>Derivatives exam</h1><p>Just as a reminder, all finance students said in their resume they were derivatives specialists.</p>",
-              name: "question1"
+              name: "question1",
+              title: "question1"
             },
             {
               type: "radiogroup",
