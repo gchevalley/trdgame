@@ -81,12 +81,56 @@ def background_thread():
             for player in players:
                 scoreboard[player] = players[player]['shares']
 
-            sorted_score = []
+            sorted_score_shares = []
             for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
                 if value != 0:
-                    sorted_score.append(key)
+                    sorted_score_shares.append(key)
+            sorted_score_shares = sorted_score_shares [::-1] # inverse order
 
-            sorted_score = sorted_score [::-1]
+            for player in players:
+                scoreboard[player] = abs(100000 - players[player]['shares'] )
+            sortes_scores_shares_target_qty = []
+            sortes_scores_shares_target_qty_debug = []
+            for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
+                if value != 0:
+                    sortes_scores_shares_target_qty.append(key)
+                    sortes_scores_shares_target_qty_debug.append( {'player': key, 'distance': value} )
+            #logger.info(sortes_scores_shares_target_qty_debug)
+
+            for player in players:
+                scoreboard[player] = players[player]['price_avg_buy']
+
+            sorted_score_price_avg_buy = []
+            sorted_score_price_avg_buy_debug = []
+            for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
+                if value != -1:
+                    sorted_score_price_avg_buy.append(key)
+                    sorted_score_price_avg_buy_debug.append( {'player': key, 'price_avg_buy': value} )
+            #logger.info(sorted_score_price_avg_buy_debug)
+
+
+            #final scoring : 50% distance to qty taget + 50% avg buy price
+            for player in players:
+                scoreboard[player] = 0
+                if player in sortes_scores_shares_target_qty:
+                    scoreboard[player] += 0.5 * sortes_scores_shares_target_qty.index(player)
+                else:
+                    scoreboard[player] += 0.5 * (len(players)-1)
+
+                if player in sorted_score_price_avg_buy:
+                    scoreboard[player] += 0.5 * sorted_score_price_avg_buy.index(player)
+                else:
+                    scoreboard[player] += 0.5 * (len(players)-1)
+
+            sorted_score = []
+            sortes_score_debug = []
+            for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
+                sorted_score.append(key)
+                sortes_score_debug.append( {'player': key, 'ranking': value} )
+            #logger.info(sortes_score_debug)
+
+
+
             if len(sorted_score) > 0:
                 socket_reponse['scoreboard'] = sorted_score
                 socket_reponse['numberPlayers'] = len(sorted_score)
@@ -275,6 +319,7 @@ def test_connect():
 @socketio.on('score', namespace='/test')
 def update_score(score):
     global players
+    scores = {}
     #logger.info('update score: ' + json.dumps(score) )
 
     if 'player' in score:
@@ -283,7 +328,7 @@ def update_score(score):
         else:
             players[ score['player'] ] = {
                 'player': score['player'],
-                'game': score['player']
+                'game': score['game']
             }
 
         players[ score['player'] ]['timestamp'] = datetime.datetime.now()
@@ -291,14 +336,26 @@ def update_score(score):
             players[ score['player'] ]['shares'] = score['shares']
         else:
             players[ score['player'] ]['shares'] = 0
+
         if 'pnl' in score:
             players[ score['player'] ]['pnl'] = score['pnl']
         else:
             players[ score['player'] ]['pnl'] = 0
+
         if 'cash' in score:
             players[ score['player'] ]['cash'] = score['cash']
         else:
             players[ score['player'] ]['cash'] = 0
+
+        if 'price_avg_buy' in score:
+            players[ score['player'] ]['price_avg_buy'] = score['price_avg_buy']
+        else:
+            players[ score['player'] ]['price_avg_buy'] = -1
+
+        if 'price_avg_sell' in score:
+            players[ score['player'] ]['price_avg_sell'] = score['price_avg_sell']
+        else:
+            players[ score['player'] ]['price_avg_sell'] = -1
 
     # wash old
     need_to_del_players = []
@@ -309,7 +366,18 @@ def update_score(score):
         for player in need_to_del_players:
             del players[player]
 
-    logger.info('players: ' + str(len(players)) )
+    # mongo.db.scores.insert_one( copy.deepcopy(players) ) # keys must not contain '.'
+    for player in players:
+        scores[ players[player]['game'] ] = copy.deepcopy( players[player] ) # change key email -> game_id
+
+        # patch timestamp for storage
+        scores[ players[player]['game'] ]['timestamp'] = scores[ players[player]['game'] ]['timestamp'].isoformat()
+
+    #logger.info( json.dumps(scores) )
+    mongo.db.scores.insert_one( copy.deepcopy(scores) )
+
+
+    #logger.info('players: ' + str(len(players)) )
 
 
 @socketio.on('disconnect', namespace='/test')

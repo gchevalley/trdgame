@@ -562,6 +562,8 @@ export const store = new Vuex.Store({
         shares: context.getters.get_shares,
         cash: context.getters.get_cash,
         pnl: context.getters.calc_pnl,
+        price_avg_buy: context.getters.calc_avg_buy,
+        price_avg_sell: context.getters.calc_avg_sell,
       });
 
       context.commit('insertNewPriceInMarket', newPrice);
