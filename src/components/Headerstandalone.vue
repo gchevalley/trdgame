@@ -4,9 +4,24 @@
     <div class="pull-left"><h1 class="site-title">Site Title</h1></div>
     <div class="pull-right">
       <ul class="nav-list">
-        <li>Link One</li>
-        <li>Link Two</li>
-        <li>Link Three</li>
+        <li>
+          <table>
+            <thead><tr><th>Title</th></tr></thead>
+            <tbody><tr><td>value</td></tr></tbody>
+          </table>
+        </li>
+        <li>
+          <table>
+            <thead><tr><th>Title</th></tr></thead>
+            <tbody><tr><td>value</td></tr></tbody>
+          </table>
+        </li>
+        <li>
+          <table>
+            <thead><tr><th>Title</th></tr></thead>
+            <tbody><tr><td>value</td></tr></tbody>
+          </table>
+        </li>
       </ul>
     </div>
   </div>
@@ -25,7 +40,7 @@
   width: 100%;
   background: #324c5f;
   color: #fff;
-  line-height: 150px;
+  line-height: 75px;
     -webkit-transition: height .5s, line-height .5s; /* Safari */
     transition: height .5s, line-height .5s;
 }

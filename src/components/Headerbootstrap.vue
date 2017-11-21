@@ -7,7 +7,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>-->
-        <a class="navbar-brand" href="#">Trading</a>
+        <a class="navbar-brand hidden-xs" href="#">Trading</a>
 
 <div class="navbar-header-menu">
         <ul v-if="$store.state.connected" class="nav navbar-nav">
@@ -85,6 +85,16 @@
 
 <script>
 
+$(document).ready(function() {
+	$('#fakebody').scroll(function() {
+		//console.log("scroll", $('#fakebody').scrollTop());
+		if ($('#fakebody').scrollTop() > 10) {
+			$('nav').addClass('shrink');
+		} else {
+			$('nav').removeClass('shrink');
+		}
+	});
+});
 
 export default {
   data () {
@@ -173,15 +183,12 @@ export default {
 
 
 
-
-
-
-
 body {
   padding-top: 80px;
 }
 nav .navbar-brand {
   font-size: 20px;
+  height: 40px;
 }
 nav .navbar-toggle {
   margin: 13px 15px 13px 0;

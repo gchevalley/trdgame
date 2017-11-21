@@ -415,7 +415,7 @@ export const store = new Vuex.Store({
 
       payLoad.game_id = getters.gameId;
 
-      Vue.http.post(location.protocol + '//' + document.domain + ':' + '5000/neworder', payLoad).then(response => {
+      Vue.http.post(location.protocol + '//' + document.domain + ':' + (location.port == '8080' ? '5000': location.port) + '/neworder', payLoad).then(response => {
         //console.log(response.data);
         payLoad.orderid = response.data.orderid;
       }, error => {
@@ -450,7 +450,7 @@ export const store = new Vuex.Store({
         avg_sell: getters.calc_avg_sell,
         is_short: getters.is_short,
       };
-      Vue.http.post(location.protocol + '//' + document.domain + ':' + '5000/checksurvey/' + getters.active_survey.name, payLoad).then(response => {
+      Vue.http.post(location.protocol + '//' + document.domain + ':' + (location.port == '8080' ? '5000': location.port) + '/checksurvey/' + getters.active_survey.name, payLoad).then(response => {
         console.log(response.data);
 
         if ( response.data.hasOwnProperty('response') ) {
@@ -463,13 +463,12 @@ export const store = new Vuex.Store({
           }
         }
 
-        //commit('canCloseSurvey', response.data.name);
-
-        commit('completeSurvey', response.data.name);
+        //commit('completeSurvey', response.data.name);
       }, error => {
         console.log(response);
         //commit('disableModal', '');
       });
+      commit('completeSurvey', getters.active_survey.name);
     },
 
     socket_myResponse: (context, message) => {
@@ -482,7 +481,7 @@ export const store = new Vuex.Store({
           order.execprice = newPrice;
           order.exectimestamp = moment().format("HH:mm:ss");
 
-          Vue.http.post(location.protocol + '//' + document.domain + ':' + '5000/newexecution', order).then(response => {
+          Vue.http.post(location.protocol + '//' + document.domain + ':' + (location.port == '8080' ? '5000': location.port) + '/newexecution', order).then(response => {
             order.execid = response.data.execid;
           }, error => {
             console.log(response);
@@ -494,7 +493,7 @@ export const store = new Vuex.Store({
           order.execprice = newPrice;
           order.exectimestamp = moment().format("HH:mm:ss");
 
-          Vue.http.post(location.protocol + '//' + document.domain + ':' + '5000/newexecution', order).then(response => {
+          Vue.http.post(location.protocol + '//' + document.domain + ':' + (location.port == '8080' ? '5000': location.port) + '/newexecution', order).then(response => {
             //console.log(response.data);
             order.execid = response.data.execid;
           }, error => {

@@ -5,17 +5,17 @@
       <form class="form-horizontal">
 
         <div class="form-group">
-          <label class="control-label col-sm-4" for="shareslimitprice">цена</label>
-          <div class="col-sm-6">
-            <input type="number" class="form-control" id="shareslimitpricerus" v-model.number="sharesLimitPrice">
-          </div>
-        </div>
-
-        <div class="form-group">
           <label class="control-label col-sm-4" for="quantity">количество</label>
           <div class="col-sm-6">
             <input type="number" v-validate="'required|max_value:10000'" class="form-control" :class="{'input': true, 'is-danger': errors.has('quantity') }" id="quantityrus" name="quantityrus" v-model.number="sharesOrderQty">
             <span v-show="sharesOrderQty>10000" class="help is-danger">Quantity is capted to 10'000 for liquidity reasons</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-4" for="shareslimitprice">цена</label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control" id="shareslimitpricerus" v-model.number="sharesLimitPrice">
           </div>
         </div>
 

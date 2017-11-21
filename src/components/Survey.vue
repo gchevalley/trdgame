@@ -473,6 +473,7 @@ export default {
         surveyJSON = surveyJSONDerivatives;
         break
       default:
+      console.log("detect survey no idea about it, load risks")
       surveyJSON = surveyJSONRisks;
     }
     var model = new SurveyVue.Model(surveyJSON);

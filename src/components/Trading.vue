@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Header from './Headerstandalone.vue';
+import Header from './Headerbootstrap.vue';
 
 import Modal from './Modal.vue';
 
@@ -67,9 +67,38 @@ export default {
   },
 
   sockets:{
-    connect: function(){
-      console.log('socket connected')
+    connect: function() {
+      console.log('socket: connected')
     },
+
+    connect_error: function(error) {
+      console.log('socket: connect_error');
+      console.log(error);
+    },
+
+    connect_timeout: function(timeout) {
+      console.log('socket: connect_timeout');
+      console.log(timeout);
+    },
+
+    error: function(error) {
+      console.log('socket: error');
+      console.log(error);
+    },
+
+    reconnect: function(attempNumber) {
+      console.log('socket: reconnect');
+      console.log(attempNumber);
+    },
+
+    reconnect_error: function(error) {
+      console.log('socket: reconnect_error');
+      console.log(error);
+    },
+
+    
+
+
   },
 
 
