@@ -18,7 +18,8 @@ app = Flask(__name__)
 
 app.config['MONGO_HOST'] = os.getenv('MONGO_HOST', 'localhost') # dev localhost, prod docker
 
-
+from raven.contrib.flask import Sentry
+sentry = Sentry(app, dsn=os.getenv('SENTRY_DSN', 'https://ccd86209a3534f00a84e6b4bfa3ad84b:a52e8eb6a56148859639d2012586665b@sentry.io/249324') )
 
 CORS(app)
 mongo = PyMongo(app)
