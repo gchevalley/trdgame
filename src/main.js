@@ -1,3 +1,5 @@
+import 'babel-polyfill';
+
 import Vue from 'vue'
 import App from './App.vue'
 
@@ -29,6 +31,14 @@ Vue.use(VueSocketio, socketio('ws://' + document.domain + ':' + (location.port =
 Vue.use(VueSocketio, socketio(location.protocol + '//' + document.domain + ':' + (location.port == '8080' ? '5000': location.port) + namespace, {
     transports: ["websocket", "polling"]
 }), store);
+
+import Raven from 'raven-js';
+import RavenVue from 'raven-js/plugins/vue';
+
+Raven
+    .config('https://839fdde74061454ba7ba170271b8ed99@sentry.io/249323')
+    .addPlugin(RavenVue, Vue)
+    .install();
 
 import moment from 'moment';
 Vue.prototype.$moment = moment;
