@@ -6,9 +6,11 @@
 
 import {store} from '../store/store.js';
 
-import * as SurveyVue from 'survey-vue'
-var Survey = SurveyVue.Survey
+import * as SurveyVue from 'survey-vue';
+var Survey = SurveyVue.Survey;
 Survey.cssType = "bootstrap";
+
+import jQuery from 'jquery';
 
 export default {
   data () {
@@ -484,6 +486,14 @@ export default {
         //afficher message de results
       });
     });
+
+    jQuery("#quantity").blur();
+    jQuery("#quantityrus").blur();
+
+    jQuery("#shareslimitprice").blur();
+    jQuery("#shareslimitpricerus").blur();
+
+
     return {
       survey: model
     }

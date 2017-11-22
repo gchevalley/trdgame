@@ -69,6 +69,7 @@ export default {
   sockets:{
     connect: function() {
       console.log('socket: connected')
+      //console.log(this.$socket);
     },
 
     connect_error: function(error) {
@@ -87,6 +88,7 @@ export default {
     },
 
     reconnect: function(attempNumber) {
+      this.$socket.io.opts.transports = ['polling', 'websocket'];
       console.log('socket: reconnect');
       console.log(attempNumber);
     },
@@ -96,7 +98,7 @@ export default {
       console.log(error);
     },
 
-    
+
 
 
   },

@@ -7,8 +7,9 @@
         <div class="form-group">
           <label class="control-label col-sm-4" for="quantity">количество</label>
           <div class="col-sm-6">
-            <input type="number" v-validate="'required|max_value:10000'" class="form-control" :class="{'input': true, 'is-danger': errors.has('quantity') }" id="quantityrus" name="quantityrus" v-model.number="sharesOrderQty">
-            <span v-show="sharesOrderQty>10000" class="help is-danger">Quantity is capted to 10'000 for liquidity reasons</span>
+            <input type="number" v-validate="'required|max_value:10000|min_value:100'" class="form-control" :class="{'input': true, 'is-danger': errors.has('quantity') }" id="quantityrus" name="quantityrus" v-model.number="sharesOrderQty">
+            <span v-show="sharesOrderQty>10000 || sharesOrderQty > ($store.getters.get_qtyLimitOrder - $store.getters.get_pendingQtyMktOrders)" class="help is-danger">Quantity is capted to 10'000 for liquidity reasons</span>
+            <span v-show="sharesOrderQty != '' && sharesOrderQty<100" class="help is-danger">Minimum quantity is 100</span>
           </div>
         </div>
 
@@ -21,8 +22,8 @@
 
         <div class="form-group">
           <div class="col-sm-offset-4 col-sm-10">
-            <button type="button" class="btn btn-default btn-lg" :class="{disabled: !$store.getters.check_short}" @click="newSellOrderShares">продавать</button>
-            <button type="button" class="btn btn-default btn-lg" :class="{disabled: $store.getters.get_cash < 0}" @click="newBuyOrderShares">купить</button>
+            <button type="button" class="btn btn-default" :class="{disabled: !$store.getters.check_short}" @click="newSellOrderShares">продавать</button>
+            <button type="button" class="btn btn-default" :class="{disabled: $store.getters.get_cash < 0}" @click="newBuyOrderShares">купить</button>
           </div>
         </div>
       </form>
@@ -35,6 +36,7 @@
           <div class="col-sm-6">
             <input type="number" v-validate="'required|max_value:10000'" class="form-control" :class="{'input': true, 'is-danger': errors.has('quantity') }" id="quantity" name="quantity" placeholder="Enter quantity" v-model.number="sharesOrderQty">
             <span v-show="sharesOrderQty>10000 || sharesOrderQty > ($store.getters.get_qtyLimitOrder - $store.getters.get_pendingQtyMktOrders)" class="help is-danger">Quantity is capted to 10'000 for liquidity reasons</span>
+            <span v-show="sharesOrderQty != '' && sharesOrderQty<100" class="help is-danger">Minimum quantity is 100</span>
           </div>
         </div>
 
@@ -83,7 +85,7 @@ export default {
     },
 
     newBuyOrderShares() {
-      if (this.$store.getters.get_cash > 0 && this.sharesOrderQty != '' && (this.sharesLimitPrice == '' || this.sharesLimitPrice > 0 && Math.abs(this.sharesOrderQty) <= (this.$store.getters.get_qtyLimitOrder - this.$store.getters.get_pendingQtyMktOrders) ) ) {
+      if (this.$store.getters.get_cash > 0 && this.sharesOrderQty != '' && Math.abs(this.sharesOrderQty)>= 100 && (this.sharesLimitPrice == '' || this.sharesLimitPrice > 0 && Math.abs(this.sharesOrderQty) <= (this.$store.getters.get_qtyLimitOrder - this.$store.getters.get_pendingQtyMktOrders) ) ) {
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'buy', qty: Math.abs(this.sharesOrderQty), orderprice: this.sharesLimitPrice } );
@@ -96,7 +98,7 @@ export default {
     },
 
     newSellOrderShares() {
-      if (this.$store.getters.check_short && this.sharesOrderQty != '' && (this.sharesLimitPrice == '' || this.sharesLimitPrice > 0 && Math.abs(this.sharesOrderQty) <= (this.$store.getters.get_qtyLimitOrder - this.$store.getters.get_pendingQtyMktOrders) ) ) {
+      if (this.$store.getters.check_short && this.sharesOrderQty != '' && Math.abs(this.sharesOrderQty)>= 100 && (this.sharesLimitPrice == '' || this.sharesLimitPrice > 0 && Math.abs(this.sharesOrderQty) <= (this.$store.getters.get_qtyLimitOrder - this.$store.getters.get_pendingQtyMktOrders) ) ) {
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.$store.dispatch('newOrder', {ordertimestamp: this.$moment().format("HH:mm:ss"), asset: 'shares', side: 'sell', qty: -Math.abs(this.sharesOrderQty), orderprice: this.sharesLimitPrice } );

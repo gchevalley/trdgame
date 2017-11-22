@@ -88,7 +88,7 @@ def background_thread():
             sorted_score_shares = sorted_score_shares [::-1] # inverse order
 
             for player in players:
-                scoreboard[player] = abs(100000 - players[player]['shares'] )
+                scoreboard[player] = abs(87654 - players[player]['shares'] )
             sortes_scores_shares_target_qty = []
             sortes_scores_shares_target_qty_debug = []
             for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
