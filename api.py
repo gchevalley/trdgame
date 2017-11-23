@@ -21,6 +21,12 @@ app.config['MONGO_HOST'] = os.getenv('MONGO_HOST', 'localhost') # dev localhost,
 from raven.contrib.flask import Sentry
 sentry = Sentry(app, dsn=os.getenv('SENTRY_DSN', 'https://ccd86209a3534f00a84e6b4bfa3ad84b:a52e8eb6a56148859639d2012586665b@sentry.io/249324') )
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("run_mode", help="dev / prod ?", type=str, default='dev')
+
+args = parser.parse_args()
+
 CORS(app)
 mongo = PyMongo(app)
 
@@ -44,8 +50,6 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-
-run_mode = "prod"
 
 def background_thread():
     """Example of how to send server generated events to clients."""
@@ -147,9 +151,9 @@ def background_thread():
                           socket_reponse,
                           namespace='/test')
 
-        if run_mode == 'prod':
+        if args.run_mode == 'prod':
             infinite_seq = False
-        elif run_mode == 'dev':
+        elif args.run_mode == 'dev':
             infinite_seq = True
 
 @app.route('/time')
@@ -396,7 +400,7 @@ def test_disconnect():
 
 if __name__ == '__main__':
 
-    if run_mode == 'dev':
+    if args.run_mode == 'dev':
         socketio.run(app, host='0.0.0.0', debug=True)
-    elif run_mode == 'prod':
+    elif args.run_mode == 'prod':
         socketio.run(app, host='0.0.0.0', debug=False)
