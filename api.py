@@ -45,6 +45,8 @@ logging.basicConfig(level=logging.INFO)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+run_mode = "prod"
+
 def background_thread():
     """Example of how to send server generated events to clients."""
     df = pd.read_csv('static/ts/IBM.csv')
@@ -58,7 +60,8 @@ def background_thread():
     new_category = df['NewsCategory'].tolist()
     news_timeout = df['NewsTimeout'].tolist()
 
-    while True: # infinite loop
+    infinite_seq = True
+    while infinite_seq:
         for idx in range(len(prices)):
             socketio.sleep( times[idx] )
             #number = random.randint(1,101)
@@ -143,6 +146,11 @@ def background_thread():
             socketio.emit('my_response',
                           socket_reponse,
                           namespace='/test')
+
+        if run_mode == 'prod':
+            infinite_seq = False
+        elif run_mode == 'dev':
+            infinite_seq = True
 
 @app.route('/time')
 def server_time():
@@ -387,5 +395,8 @@ def test_disconnect():
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', debug=True)
-    #socketio.run(app, host='0.0.0.0', debug=False)
+
+    if run_mode == 'dev':
+        socketio.run(app, host='0.0.0.0', debug=True)
+    elif run_mode == 'prod':
+        socketio.run(app, host='0.0.0.0', debug=False)

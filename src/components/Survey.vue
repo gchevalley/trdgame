@@ -46,7 +46,7 @@ export default {
           elements: [
             {
               type: "html",
-              html: "<h1>Derivatives exam</h1><p>Just as a reminder, all finance students said in their resume they were derivatives specialists.</p>",
+              html: "<h1>Derivatives test</h1><!--<p>Just as a reminder, all finance students said in their resume they were derivatives specialists.</p>-->",
               name: "question1",
               title: "question1"
             },
