@@ -477,33 +477,58 @@ export const store = new Vuex.Store({
       // execute market orders
       context.state.pendingOrders.forEach(function(order) {
         if (order.ordertype == 'MKT') {
-          order.orderprice = newPrice;
-          order.execprice = newPrice;
-          order.exectimestamp = moment().format("HH:mm:ss");
 
-          Vue.http.post(location.protocol + '//' + document.domain + ':' + (location.port == '8080' ? '5000': location.port) + '/newexecution', order).then(response => {
-            order.execid = response.data.execid;
-          }, error => {
-            console.log(response);
-          });
-          //console.log(order);
-          context.commit( 'insertNewExec', order );
-          context.commit( 'removeOrder', order );
+          var canExecMarketOrder = true;
+          if ( order.side == 'buy' && context.getters.get_cash < 0 ) {
+            canExecMarketOrder = false;
+            console.log("marketOrder: not enough cash");
+          } else if ( order.side == 'sell' && !context.getters.check_short ) {
+            canExecMarketOrder = false;
+            console.log("marketOrder: too short");
+          }
+
+          if (canExecMarketOrder ) {
+            order.orderprice = newPrice;
+            order.execprice = newPrice;
+            order.exectimestamp = moment().format("HH:mm:ss");
+
+            Vue.http.post(location.protocol + '//' + document.domain + ':' + (location.port == '8080' ? '5000': location.port) + '/newexecution', order).then(response => {
+              order.execid = response.data.execid;
+            }, error => {
+              console.log(response);
+            });
+            //console.log(order);
+            context.commit( 'insertNewExec', order );
+            context.commit( 'removeOrder', order );
+          }
+
         } else if ( (order.ordertype == 'LMT' && order.side == 'buy' && order.orderprice >= newPrice) || (order.ordertype == 'LMT' && order.side == 'sell' && order.orderprice <= newPrice) ) {
-          order.execprice = newPrice;
-          order.exectimestamp = moment().format("HH:mm:ss");
 
-          Vue.http.post(location.protocol + '//' + document.domain + ':' + (location.port == '8080' ? '5000': location.port) + '/newexecution', order).then(response => {
-            //console.log(response.data);
-            order.execid = response.data.execid;
-          }, error => {
-            console.log(response);
-          });
-          console.log(order);
+          var canExecLimitOrder = true;
+          if ( order.side == 'buy' && context.getters.get_cash < 0 ) {
+            canExecLimitOrder = false;
+            console.log("LimitOrder: not enough cash");
+          } else if ( order.side == 'sell' && !context.getters.check_short ) {
+            canExecLimitOrder = false;
+            console.log("LimitOrder: too short");
+          }
 
+          if (canExecLimitOrder) {
+            order.execprice = newPrice;
+            order.exectimestamp = moment().format("HH:mm:ss");
 
-          context.commit( 'insertNewExec', order );
-          context.commit( 'removeOrder', order );
+            Vue.http.post(location.protocol + '//' + document.domain + ':' + (location.port == '8080' ? '5000': location.port) + '/newexecution', order).then(response => {
+              //console.log(response.data);
+              order.execid = response.data.execid;
+            }, error => {
+              console.log(response);
+            });
+            console.log(order);
+
+            context.commit( 'insertNewExec', order );
+            context.commit( 'removeOrder', order );
+
+          }
         }
 
       });

@@ -25,8 +25,6 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("run_mode", help="dev / prod ?", type=str, default='dev')
 
-args = parser.parse_args()
-
 CORS(app)
 mongo = PyMongo(app)
 
@@ -39,6 +37,7 @@ mongo = PyMongo(app)
 async_mode = None
 socketio = SocketIO(app, async_mode=async_mode)
 
+thread_status = True
 thread = None
 thread_lock = Lock()
 
@@ -65,7 +64,7 @@ def background_thread():
     news_timeout = df['NewsTimeout'].tolist()
 
     infinite_seq = True
-    while infinite_seq:
+    while infinite_seq and thread_status:
         for idx in range(len(prices)):
             socketio.sleep( times[idx] )
             #number = random.randint(1,101)
@@ -151,10 +150,15 @@ def background_thread():
                           socket_reponse,
                           namespace='/test')
 
+            if thread_status != True:
+                break
+
         if args.run_mode == 'prod':
             infinite_seq = False
         elif args.run_mode == 'dev':
             infinite_seq = True
+
+    logging.info("quitting TS thread")
 
 @app.route('/time')
 def server_time():
@@ -169,16 +173,37 @@ def random_gen():
 def spa():
     return render_template('index.html', async_mode=socketio.async_mode)
 
-@app.route('/reset', methods=['GET'])
-def reset_thread():
+@app.route('/mongo/host')
+def mongo_host():
+    return os.getenv('MONGO_HOST', 'localhost')
+
+@app.route('/thread/stop', methods=['GET'])
+def thread_stop():
+    global thread_status
+    thread_status = False
+
     global thread
     thread = None
-    return 'reset thread'
+
+    return 'thread/stop'
+
+@app.route('/thread/start', methods=['GET'])
+def thread_start():
+    global thread_status
+    thread_status = True
+
+    global thread
+    with thread_lock:
+        if thread is None:
+            logger.info('Start TS thread manually')
+            thread = socketio.start_background_task(target=background_thread)
+
+    return '/thread/start'
 
 @app.route('/connect', methods=['POST'])
 @cross_origin(origins='*')
 def connect():
-    content = request.json
+    content = request.get_json()
 
     data = {}
     data['server'] = {
@@ -223,7 +248,7 @@ def connect():
 @app.route('/neworder', methods=['POST'])
 @cross_origin(origins='*')
 def new_order():
-    order = request.json
+    order = request.get_json()
 
     order['ordertimestamp'] = server_time()
 
@@ -237,7 +262,7 @@ def new_order():
 @app.route('/newexecution', methods=['POST'])
 @cross_origin(origins='*')
 def new_execution():
-    execution = request.json
+    execution = request.get_json()
 
     execution['exectimestamp'] = server_time()
     execution['execid'] = str( mongo.db.executions.insert_one( copy.deepcopy(execution) ).inserted_id )
@@ -250,17 +275,17 @@ def new_execution():
 @cross_origin(origins='*')
 def check_survey(survey):
 
-    logger.info('New survey submitted: ' + json.dumps(request.json) )
+    logger.info('New survey submitted: ' + json.dumps( request.get_json() ) )
 
     cSurvey = {}
     cSurvey['name'] = survey
-    cSurvey['submittedContent'] = request.json
+    cSurvey['submittedContent'] = request.get_json()
     cSurvey['surveycompletetimestamp'] = server_time()
 
     if survey == 'risks':
-        cSurvey['response'] = check_survey_risks(request.json)
+        cSurvey['response'] = check_survey_risks( request.get_json() )
     elif survey == 'derivatives':
-        cSurvey['response'] = check_survey_derivatives(request.json)
+        cSurvey['response'] = check_survey_derivatives( request.get_json() )
 
     cSurvey['surveyid'] = str( mongo.db.surveys.insert_one( copy.deepcopy(cSurvey) ).inserted_id )
 
@@ -322,11 +347,14 @@ def ping_pong():
 
 @socketio.on('connect', namespace='/test')
 def test_connect():
-    global thread
-    with thread_lock:
-        if thread is None:
-            logger.info('Start TS thread')
-            thread = socketio.start_background_task(target=background_thread)
+    if args.run_mode == 'dev':
+        global thread
+        with thread_lock:
+            if thread is None:
+                global thread_status
+                thread_status = True
+                logger.info('Start TS thread automatically from new client connection')
+                thread = socketio.start_background_task(target=background_thread)
     emit('my_connection', {'data': 'Connected'})
 
 @socketio.on('score', namespace='/test')
@@ -399,6 +427,7 @@ def test_disconnect():
 
 
 if __name__ == '__main__':
+    args = parser.parse_args()
 
     if args.run_mode == 'dev':
         socketio.run(app, host='0.0.0.0', debug=True)
