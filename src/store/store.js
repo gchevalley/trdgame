@@ -44,6 +44,8 @@ export const store = new Vuex.Store({
 
     stockprice: [],
 
+    scoreboard: [],
+
     portfolio: {
       positions: {
         shares: 0
@@ -92,6 +94,11 @@ export const store = new Vuex.Store({
     stockprices: state => {
       return state.stockprice;
     },
+
+    scoreboard: state => {
+      return state.scoreboard;
+    },
+
     get_pendingQty: state => {
       var qty_shares = 0;
       state.pendingOrders.forEach(function(order) {
@@ -203,6 +210,7 @@ export const store = new Vuex.Store({
       state.player = {};
       state.game = {limitShortShares: -20000};
       state.stockprice = [];
+      state.scoreboard = [];
       state.portfolio = {positions: {shares: 0}};
       state.countOrder = 0;
       state.pendingOrders = [];
@@ -306,6 +314,10 @@ export const store = new Vuex.Store({
       }
 
       state.stockprice.push(newPrice);
+    },
+
+    updateScoreboard: (state, payLoad = []) => {
+      state.scoreboard = payLoad;
     },
 
     insertNewOrder: (state, payLoad) => {
@@ -582,6 +594,12 @@ export const store = new Vuex.Store({
       }
       context.commit('updateNewsTimer');
 
+      /*
+      if (message.hasOwnProperty('scoreboard') ) {
+        context.commit('updateScoreboard', message.scoreboard);
+      }
+      */
+
       (new Vue()).$socket.emit('score', {player: context.getters.playerId,
         game: context.getters.gameId,
         shares: context.getters.get_shares,
@@ -592,6 +610,12 @@ export const store = new Vuex.Store({
       });
 
       context.commit('insertNewPriceInMarket', newPrice);
+    },
+
+    socket_myScoreboard: (context, message) => {
+      if (message.hasOwnProperty('scoreboard') ) {
+        context.commit('updateScoreboard', message.scoreboard);
+      }
     },
   }
 });

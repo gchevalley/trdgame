@@ -84,60 +84,7 @@ def background_thread():
                 'timeout': news_timeout[idx]
                 }
 
-            scoreboard = {}
-            for player in players:
-                scoreboard[player] = players[player]['shares']
-
-            sorted_score_shares = []
-            for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
-                if value != 0:
-                    sorted_score_shares.append(key)
-            sorted_score_shares = sorted_score_shares [::-1] # inverse order
-
-            for player in players:
-                scoreboard[player] = abs(87654 - players[player]['shares'] )
-            sortes_scores_shares_target_qty = []
-            sortes_scores_shares_target_qty_debug = []
-            for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
-                if value != 0:
-                    sortes_scores_shares_target_qty.append(key)
-                    sortes_scores_shares_target_qty_debug.append( {'player': key, 'distance': value} )
-            #logger.info(sortes_scores_shares_target_qty_debug)
-
-            for player in players:
-                scoreboard[player] = players[player]['price_avg_buy']
-
-            sorted_score_price_avg_buy = []
-            sorted_score_price_avg_buy_debug = []
-            for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
-                if value != -1:
-                    sorted_score_price_avg_buy.append(key)
-                    sorted_score_price_avg_buy_debug.append( {'player': key, 'price_avg_buy': value} )
-            #logger.info(sorted_score_price_avg_buy_debug)
-
-
-            #final scoring : 50% distance to qty taget + 50% avg buy price
-            for player in players:
-                scoreboard[player] = 0
-                if player in sortes_scores_shares_target_qty:
-                    scoreboard[player] += 0.5 * sortes_scores_shares_target_qty.index(player)
-                else:
-                    scoreboard[player] += 0.5 * (len(players)-1)
-
-                if player in sorted_score_price_avg_buy:
-                    scoreboard[player] += 0.5 * sorted_score_price_avg_buy.index(player)
-                else:
-                    scoreboard[player] += 0.5 * (len(players)-1)
-
-            sorted_score = []
-            sortes_score_debug = []
-            for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
-                sorted_score.append(key)
-                sortes_score_debug.append( {'player': key, 'ranking': value} )
-            #logger.info(sortes_score_debug)
-
-
-
+            sorted_score = calc_scoreboard()
             if len(sorted_score) > 0:
                 socket_reponse['scoreboard'] = sorted_score
                 socket_reponse['numberPlayers'] = len(sorted_score)
@@ -159,6 +106,66 @@ def background_thread():
             infinite_seq = True
 
     logging.info("quitting TS thread")
+
+def calc_scoreboard():
+    scoreboard = {}
+    for player in players:
+        scoreboard[player] = players[player]['shares']
+
+    sorted_score_shares = []
+    for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
+        if value != 0:
+            sorted_score_shares.append(key)
+    sorted_score_shares = sorted_score_shares [::-1] # inverse order
+
+    for player in players:
+        scoreboard[player] = abs(87654 - players[player]['shares'] )
+    sortes_scores_shares_target_qty = []
+    sortes_scores_shares_target_qty_debug = []
+    for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
+        if value != 0:
+            sortes_scores_shares_target_qty.append(key)
+            sortes_scores_shares_target_qty_debug.append( {'player': key, 'distance': value} )
+    #logger.info(sortes_scores_shares_target_qty_debug)
+
+    for player in players:
+        scoreboard[player] = players[player]['price_avg_buy']
+
+    sorted_score_price_avg_buy = []
+    sorted_score_price_avg_buy_debug = []
+    for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
+        if value != -1:
+            sorted_score_price_avg_buy.append(key)
+            sorted_score_price_avg_buy_debug.append( {'player': key, 'price_avg_buy': value} )
+    #logger.info(sorted_score_price_avg_buy_debug)
+
+
+    #final scoring : 50% distance to qty taget + 50% avg buy price
+    for player in players:
+        scoreboard[player] = 0
+        if player in sortes_scores_shares_target_qty:
+            scoreboard[player] += 0.5 * sortes_scores_shares_target_qty.index(player)
+        else:
+            scoreboard[player] += 0.5 * (len(players)-1)
+
+        if player in sorted_score_price_avg_buy:
+            scoreboard[player] += 0.5 * sorted_score_price_avg_buy.index(player)
+        else:
+            scoreboard[player] += 0.5 * (len(players)-1)
+
+    sorted_score = []
+    sortes_score_debug = []
+    for key, value in sorted(scoreboard.items(), key=lambda item: (item[1], item[0])):
+        sorted_score.append(key)
+        sortes_score_debug.append( {'player': key, 'ranking': value} )
+    #logger.info(sortes_score_debug)
+
+    socketio.emit('my_scoreboard',
+                  {'scoreboard': sorted_score},
+                  namespace='/test')
+
+    return sorted_score
+
 
 @app.route('/time')
 def server_time():

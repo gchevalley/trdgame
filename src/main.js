@@ -32,6 +32,13 @@ Vue.use(VueSocketio, socketio(location.protocol + '//' + document.domain + ':' +
     transports: ["websocket", "polling"]
 }), store);
 
+import VueRouter from 'vue-router';
+import { routes } from './routes';
+Vue.use(VueRouter);
+const router = new VueRouter({
+  routes
+});
+
 import Raven from 'raven-js';
 import RavenVue from 'raven-js/plugins/vue';
 
@@ -56,5 +63,6 @@ Vue.prototype.$Survey = Survey;
 new Vue({
   el: '#app',
   store,
+  router,
   render: h => h(App)
 })
