@@ -22,7 +22,7 @@
   </div><!-- /.container-fluid -->
 </nav>
   <div class="container">
-    <h1>Scoreboard</h1>
+    <!--<h1>Scoreboard</h1>-->
     <transition-group name="flip-list" tag="ul" class="list-group">
       <li v-for="(player, i) in scoreboard" v-bind:key="player" class="list-group-item">
         <h3> <span class="badge">{{i+1}}</span> {{ player }}</h3>
@@ -61,6 +61,10 @@ export default {
 
   .flip-list-move {
     transition: transform 1s;
+  }
+
+  body {
+      padding-top: 60px;
   }
 
 </style>
