@@ -299,7 +299,7 @@ def check_survey(survey):
     return jsonify(cSurvey)
 
 def check_survey_risks(response_json):
-    subShares = float(response_json['shares'])
+    subShares = float( response_json['shares'].replace('k', '000') )
     curShares = response_json['prtcontext']['shares']
     curCash = response_json['prtcontext']['cash']
     dictResponse = {}
