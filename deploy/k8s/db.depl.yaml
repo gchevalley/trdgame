@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: trdgame
+  name: trdgame-mongo
+  labels:
+    app: trdgame-mongo
+spec:
+  ports:
+  - port: 27017
+  selector:
+    app: trdgame-mongo
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: trdgame-mongo
+  namespace: trdgame
+  labels:
+    app: trdgame-mongo
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: trdgame-mongo
+    spec:
+      containers:
+      - image: mongo:3
+        name: trdgame-mongo
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: mongodata
+          mountPath: /data/db
+      volumes:
+      - name: mongodata
+        persistentVolumeClaim:
+          claimName: trdgame-db-pv-claim

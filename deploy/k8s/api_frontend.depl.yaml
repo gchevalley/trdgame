@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: trdgame-api-frontend
+  namespace: trdgame
+  labels:
+    app: trdgame-api-frontend
+spec:
+  ports:
+  - port: 5000
+  selector:
+    app: trdgame-api-frontend
+  clusterIP: None
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: trdgame-api-frontend
+  namespace: trdgame
+  labels:
+    app: trdgame-api-frontend
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: trdgame-api-frontend
+    spec:
+      containers:
+      - image: gchevalley/trdgame
+        imagePullPolicy: Always
+        name: trdgame-api-frontend
+        command: ["python"]
+        args: ["/usr/src/app/api.py"]
+        env:
+        - name: MONGO_HOST
+          value: trdgame-mongo
+        - name: RUN_MODE
+          value: dev
+        ports:
+        - containerPort: 5000
