@@ -140,18 +140,18 @@ def calc_scoreboard():
     #logger.info(sorted_score_price_avg_buy_debug)
 
 
-    #final scoring : 50% distance to qty taget + 50% avg buy price
+    #final scoring : 100% distance to qty taget + 0% avg buy price
     for player in players:
         scoreboard[player] = 0
         if player in sortes_scores_shares_target_qty:
-            scoreboard[player] += 0.5 * sortes_scores_shares_target_qty.index(player)
+            scoreboard[player] += 1.0 * sortes_scores_shares_target_qty.index(player)
         else:
-            scoreboard[player] += 0.5 * (len(players)-1)
+            scoreboard[player] += 1.0 * (len(players)-1)
 
         if player in sorted_score_price_avg_buy:
-            scoreboard[player] += 0.5 * sorted_score_price_avg_buy.index(player)
+            scoreboard[player] += 0.0 * sorted_score_price_avg_buy.index(player)
         else:
-            scoreboard[player] += 0.5 * (len(players)-1)
+            scoreboard[player] += 0.0 * (len(players)-1)
 
     sorted_score = []
     sortes_score_debug = []
@@ -434,7 +434,11 @@ def test_disconnect():
 
 
 if __name__ == '__main__':
-    args = parser.parse_args()
+
+    if 'RUN_MODE' in os.environ:
+        args = parser.parse_args([os.getenv('RUN_MODE')])
+    else:
+        args = parser.parse_args()
 
     if args.run_mode == 'dev':
         socketio.run(app, host='0.0.0.0', debug=True)

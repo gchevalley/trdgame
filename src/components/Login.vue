@@ -49,7 +49,7 @@ export default {
   methods: {
     joinTheGame() {
       if (this.email != '') {
-        this.$http.post(location.protocol + '//' + document.domain + ':' + '5000' + "/connect", {'login': this.email}).then(response => {
+        this.$http.post(location.protocol + '//' + document.domain + ':' + (location.port == '8080' ? '5000': location.port) + "/connect", {'login': this.email}).then(response => {
           this.$store.dispatch('login', response.data);
         }, error => {
           console.log(response);
